@@ -11,26 +11,27 @@
 
 
 typedef struct {
-    uint8 command;
-	uint8 datalength;
+	char command;
+	char datalength;
 } commandpacket;
 
 typedef struct {
-	uint8 data[64];
+	char data[64];
 } commanddata;
 
 typedef struct { 		// All units are in ADC counts unless otherwise specified.
-	uint8 packetver; 	// Packet version.. this is version 1.
-	uint32 time; 		// current time of packet... from RTC module on steallris
-	uint16 cmdpos; 		// commanded position (with offset)
-	uint16 sensepos; 	// True position from LVDT sensor
-	uint16 cmdmotorv; 	// commanded motor voltage
-	uint16 sensemotorv; // measured motor voltage
-	uint16 sensemotorc; // measured motor current
-	uint16 accelx;		// X-acceleration (from accelerometer)
-	uint16 accely;		// Y-acceleration
-	uint16 accelz;		// Z-acceleration
-	uint16 temp;		// Temperature.
+	char packetver; 	// Packet version.. this is version 1.
+	unsigned long time; 		// current time of packet... from RTC module on steallris
+	unsigned long cmdpos; 		// commanded position (with offset)
+	unsigned long sensepos; 	// True position from LVDT sensor
+	unsigned long dutycycle;	// last pwm duty cycle.. if using pwm control.
+	unsigned long cmdmotorv; 	// commanded motor voltage .. only if using DAC for control.
+	unsigned long sensemotorv; // measured motor voltage
+	unsigned long sensemotorc; // measured motor current
+	unsigned long accelx;		// X-acceleration (from accelerometer)
+	unsigned long accely;		// Y-acceleration
+	unsigned long accelz;		// Z-acceleration
+	unsigned long temp;		// Temperature.
 
 } datapacket;
 
