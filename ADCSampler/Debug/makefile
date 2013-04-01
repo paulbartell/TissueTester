@@ -8,6 +8,7 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/tms470_4.9.5
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
+"./uartstdio.obj" \
 "./startup_ccs.obj" \
 "./pins.obj" \
 "./main.obj" \
@@ -125,8 +126,8 @@ ADCSampler.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(TMS470_EXECUTABLE_OUTPUTS__QUOTED) "ADCSampler.out"
-	-$(RM) "main.pp" "pins.pp" "startup_ccs.pp" 
-	-$(RM) "main.obj" "pins.obj" "startup_ccs.obj" 
+	-$(RM) "main.pp" "pins.pp" "startup_ccs.pp" "uartstdio.pp" 
+	-$(RM) "main.obj" "pins.obj" "startup_ccs.obj" "uartstdio.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
