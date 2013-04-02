@@ -15,3 +15,13 @@
 *.exe
 *.out
 *.app
+
+# Mac crap
+.DS_STORE
+.DS_Store
+
+*.DS_Store
+
+*.gitignore
+
+._Makefile

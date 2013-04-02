@@ -7,9 +7,6 @@
  *
  */
 
-#define PART_LM4F120H5QR
-#define UART_BUFFERED
-
 //#include "datastructs.h"
 //#include "main.h"
 #include "driverlib/pin_map.h"
@@ -66,7 +63,7 @@ void setPosition(){
 
 }
 
-void main(void) {
+int main(void) {
 
     // 80 MHz system clock
     SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL | SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
@@ -92,5 +89,8 @@ void main(void) {
 
     while(1){
     }
+    
+    
+    return 1;
 }
 
