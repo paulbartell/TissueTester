@@ -25,6 +25,7 @@
 *.gitignore
 
 ._Makefile
+._*
 
 .ccsproject
 .cproject
