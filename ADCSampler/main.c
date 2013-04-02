@@ -16,7 +16,7 @@
 
 //Global variables
 unsigned long ulCurrent[1];				//Stores data read from ADC0 FIFO
-unsigned long ulLVDT[1];				//Stores data read from ADC1 FIFO
+//unsigned long ulLVDT[1];				//Stores data read from ADC1 FIFO
 
 int main(void) {
 	unsigned long ulPeriod;				//Period for Timer0
@@ -32,49 +32,10 @@ int main(void) {
 
 	/*
 	 *
-	 * ADC Configuration
+	 * Timer Configuration
 	 *
 	 */
 
-		//Set the ADC sample rate to 1 MSPS
-		SysCtlADCSpeedSet(SYSCTL_ADCSPEED_1MSPS);
-
-		//Disable ADC0 sequencer 4 (so that we can configure it)
-		ADCSequenceDisable(ADC0_BASE, 3);
-
-		//Configure ADC0 sequencer 4 to always trigger
-		ADCSequenceConfigure(ADC0_BASE, 3, ADC_TRIGGER_PROCESSOR, 0);
-
-		//Configure the ADC0 to flag the interrupt flag when it finishes sampling
-		ADCSequenceStepConfigure(ADC0_BASE, 3, 0, ADC_CTL_CH0|ADC_CTL_END|ADC_CTL_IE);
-
-		//Enable ADC0 sequencer 4
-		ADCSequenceEnable(ADC0_BASE, 3);
-
-		/*
-
-		//Set the ADC sample rate to 1 MSPS
-		SysCtlADCSpeedSet(SYSCTL_ADCSPEED_1MSPS);
-
-		//Disable ADC1 sequencer 4 (so that we can configure it)
-		ADCSequenceDisable(ADC1_BASE, 3);
-
-		//Configure ADC1 sequencer 4 to always trigger
-		ADCSequenceConfigure(ADC1_BASE, 3, ADC_TRIGGER_PROCESSOR, 0);
-
-		//Configure the ADC1 to flag the interrupt flag when it finishes sampling
-		ADCSequenceStepConfigure(ADC1_BASE, 3, 0, ADC_CTL_CH1|ADC_CTL_END|ADC_CTL_IE);
-
-		//Enable ADC1 sequencer 4
-		ADCSequenceEnable(ADC1_BASE, 3);
-
-		*/
-
-	/*
-	 *
-	 * Timer and Interrupt Configuration
-	 *
-	 */
 		//Configure timer to be periodic (counts down and then resets)
 		TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
 
@@ -82,15 +43,49 @@ int main(void) {
 		ulPeriod = (SysCtlClockGet() / 100) / 2;
 		TimerLoadSet(TIMER0_BASE, TIMER_A, ulPeriod - 1);
 
-		//Configure and enable interrupt in timer module as well as NVIC
-		IntEnable(INT_TIMER0A);
-		TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
-		IntMasterEnable();
+	/*
+	 *
+	 * ADC Configuration
+	 *
+	 */
+
+		//Set the ADC sample rate to 500 KSPS
+		SysCtlADCSpeedSet(SYSCTL_ADCSPEED_500KSPS);
+
+		//Disable ADC0 sequencer 3 (so that we can configure it)
+		ADCSequenceDisable(ADC0_BASE, 3);
+
+		//Configure ADC0 sequencer 3 to trigger based on TIMER0A
+		ADCSequenceConfigure(ADC_BASE, 3, ADC_TRIGGER_TIMER, 0);
+
+		//Configure the ADC0 to flag the interrupt flag when it finishes sampling
+		ADCSequenceStepConfigure(ADC_BASE, 3, 0, ADC_CTL_CH0|ADC_CTL_END|ADC_CTL_IE);
+
+		//Enable ADC0 sequencer 3
+		ADCSequenceEnable(ADC0_BASE, 3);
+
+		//Enable ADC0 interrupt, it's redundant with line 80 but has to be done
+		ADCIntEnable(ADC0_BASE, 3);
 
 		//Enable timer
 		TimerEnable(TIMER0_BASE, TIMER_A);
 
-		//UARTprintf("Handler called\n");
+		//Configure TIMER0A to be the ADC sample trigger
+		TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
+
+		//Clear any interrupts
+		ADCIntClear(ADC0_BASE, 1);
+
+		//Begin sampling
+		ADCIntEnable(ADC0_BASE, 1);
+
+		//Turn on sequence interrupts for sequence 3
+		IntEnable(INT_ADC0SS3);
+
+		//Enable all interrupts
+		IntMasterEnable();
+
+		UARTprintf("Configure complete\n");
 
 
 	while(1) {
@@ -100,32 +95,17 @@ int main(void) {
 }
 
 /*
- * This function is the implementation of the Timer0 interrupt handler.
+ * This function is the implementation of the ADC0 interrupt handler.
  */
-void Timer0IntHandler(void) {
-	//Clear the timer interrupt flag
-	TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+interrupt void ADC0IntHandler(void) {
 
 	//Clear the ADC interrupt flags
 	ADCIntClear(ADC0_BASE, 3);
-	//ADCIntClear(ADC1_BASE, 3);
 
-	//Trigger ADC conversion
-	ADCProcessorTrigger(ADC0_BASE, 3);
-	//ADCProcessorTrigger(ADC1_BASE, 3);
-
-	//Wait for conversions to finish
-	while(!ADCIntStatus(ADC0_BASE, 3, false))
-	{
-	}
-
-	//while(!ADCIntStatus(ADC1_BASE, 3, false))
-	//{
-	//}
-
+	//Get data from ADC0 sequence 3
 	ADCSequenceDataGet(ADC0_BASE, 3, ulCurrent);
-	//ADCSequenceDataGet(ADC1_BASE, 3, ulLVDT);
 
+	UARTprintf("Current: %u\n", ulCurrent[0]);
 
 }
 
