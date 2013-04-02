@@ -25,3 +25,8 @@
 *.gitignore
 
 ._Makefile
+
+.ccsproject
+.cproject
+.project
+
