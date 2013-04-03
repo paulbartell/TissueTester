@@ -36,8 +36,9 @@ static void FaultISR(void);
 static void IntDefaultHandler(void);
 
 // Declaration of ADC interrupt handlers
-extern interrupt void ADC0IntHandler(void);
-extern interrupt void ADC1IntHandler(void);
+extern void ADC0IntHandler(void);
+extern void ADC1IntHandler(void);
+
 
 
 //*****************************************************************************
@@ -233,6 +234,7 @@ extern unsigned long _data;
 extern unsigned long _edata;
 extern unsigned long _bss;
 extern unsigned long _ebss;
+
 
 //*****************************************************************************
 //

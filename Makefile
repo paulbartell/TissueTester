@@ -7,7 +7,7 @@
 #
 # Defines the part type that this project uses.
 #
-PART=LM4F120H5QR
+#PART=LM4F120H5QR
 
 #
 # Set the processor variant.
@@ -66,7 +66,7 @@ ${COMPILER}:
 ${COMPILER}/tissue_tester.axf: ${COMPILER}/startup_${COMPILER}.o
 ${COMPILER}/tissue_tester.axf: ${COMPILER}/main.o
 ${COMPILER}/tissue_tester.axf: ${COMPILER}/uartstdio.o
-#${COMPILER}/tissue_tester.axf: ${COMPILER}/usb_bulk_structs.o
+${COMPILER}/tissue_tester.axf: ${COMPILER}/pins.o
 #${COMPILER}/tissue_tester.axf: ${COMPILER}/usb_dev_bulk.o
 ${COMPILER}/tissue_tester.axf: ${COMPILER}/ustdlib.o
 ${COMPILER}/tissue_tester.axf: ${ROOT}/usblib/${COMPILER}-cm4f/libusb-cm4f.a

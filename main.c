@@ -6,18 +6,17 @@
  *
  *
  */
-
+#include "inc/hw_memmap.h"
+#include "inc/hw_types.h"
+#include "inc/hw_ints.h"
+#include "driverlib/pin_map.h"
 #include "packets.h"
 //#include "main.h"
-#include "driverlib/pin_map.h"
 #include "pins.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/gpio.h"
 #include "driverlib/uart.h"
 #include "utils/uartstdio.h"
-#include "inc/hw_memmap.h"
-#include "inc/hw_types.h"
-#include "inc/hw_ints.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/timer.h"
 #include "driverlib/sysctl.h"
@@ -27,7 +26,7 @@
 
 //Global variables
 unsigned long ulCurrent[1];				//Stores data read from ADC0 FIFO
-//unsigned long ulLVDT[1];				//Stores data read from ADC1 FIFO
+unsigned long ulLVDT[1];				//Stores data read from ADC1 FIFO
 unsigned long ulpwmDutyCycle, ulpwmPeriod; 			//Stores PWM Duty cycle value 
 
 // Infinite loop calls this function
@@ -48,18 +47,23 @@ void pwmSetup() {
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0); // enable timer0
 	TimerConfigure(TIMER0_BASE, TIMER_CFG_SPLIT_PAIR|TIMER_CFG_A_PWM); // set as pwm type
 
-	uldutyCycle = 0; // Start with a 0 duty cycle
+	ulpwmDutyCycle = 0; // Start with a 0 duty cycle
 	ulpwmPeriod = 1023;
 
 	TimerLoadSet(TIMER0_BASE, TIMER_A, ulpwmPeriod - 1);
-	TimerMatchSet(TIMER0_BASE, TIMER_A, uldutyCycle);
+	TimerMatchSet(TIMER0_BASE, TIMER_A, ulpwmDutyCycle);
 	TimerEnable(TIMER0_BASE, TIMER_A);
 
 }
 
+// sets pwm duty cycle
+void pwmSetDuty() {
+	TimerMatchSet(TIMER0_BASE, TIMER_A, ulpwmPeriod - ulpwmDutyCycle);
+}
+
 void adcSetup(unsigned long adcFrequency) {
 	unsigned long ulPeriod; // Temporary variable for adc timer period
-	unsigned long ul
+	PortFunctionInit();
 	/*
 	 *
 	 * Timer Configuration
@@ -70,7 +74,7 @@ void adcSetup(unsigned long adcFrequency) {
 	TimerConfigure(TIMER1_BASE, TIMER_CFG_PERIODIC);
 
 	//Calculate period for a pin toggle freq of adcFrequency with 50% duty cycle
-	ulPeriod = (SysCtlClockGet() / adcFrequency) / 2;
+	ulPeriod = (SysCtlClockGet() / adcFrequency / 2);
 	TimerLoadSet(TIMER1_BASE, TIMER_A, ulPeriod - 1);
 
 	/*
@@ -78,12 +82,12 @@ void adcSetup(unsigned long adcFrequency) {
 	 * ADC Configuration
 	 *
 	 */
-
+	
 	//Set the ADC sample rate to 500 KSPS
 	SysCtlADCSpeedSet(SYSCTL_ADCSPEED_500KSPS);
 	//Set ADC oversampling rate. possible are 0,2,4,8,16,32,64
-	ADCHardwareOversampleConfigure(ADC0_BASE, 0);
-	ADCHardwareOversampleConfigure(ADC1_BASE, 0);
+	//ADCHardwareOversampleConfigure(ADC0_BASE, 0);
+	//ADCHardwareOversampleConfigure(ADC1_BASE, 0);
 
 	//Disable ADC sequencer 3 (so that we can configure it)
 	ADCSequenceDisable(ADC0_BASE, 3);
@@ -119,16 +123,42 @@ void adcSetup(unsigned long adcFrequency) {
 
 	//Begin sampling
 	ADCIntEnable(ADC0_BASE, 1);
+	ADCIntEnable(ADC1_BASE, 1);
 
 	//Turn on sequence interrupts for sequence 3
 	IntEnable(INT_ADC0SS3);
+	IntEnable(INT_ADC1SS3);
 
 	//Enable all interrupts
 	IntMasterEnable();
 
 }
 
-void uartInit() {
+void ADC0IntHandler() {
+
+	//Clear the ADC interrupt flags
+	ADCIntClear(ADC0_BASE, 3);
+
+	//Get data from ADC0 sequence 3
+	ADCSequenceDataGet(ADC0_BASE, 3, ulCurrent);
+
+	UARTprintf("Current: %u\n", ulCurrent[0]);
+
+}
+
+void ADC1IntHandler() {
+
+	//Clear the ADC interrupt flags
+	ADCIntClear(ADC1_BASE, 3);
+
+	//Get data from ADC1 sequence 3
+	ADCSequenceDataGet(ADC1_BASE, 3, ulLVDT);
+
+	UARTprintf("LVDT: %u\n", ulLVDT[0]);
+
+}
+
+void uartSetup() {
 
 	// stuff for UART initialization
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
@@ -139,11 +169,7 @@ void uartInit() {
 
 }
 
-// sets pwm duty cycle
-void pwmSetDuty(unsigned long ulduty) {
-	dutyCycle = ulpwmPeriod - ulduty;
-	TimerMatchSet(TIMER0_BASE, TIMER_A, duty);
-}
+
 
 void updatePID() {
 
@@ -161,6 +187,10 @@ int main(void) {
     pwmSetup(); // initialize with 0 duty cycle.
     
     pwmSetDuty(250);
+    
+    uartSetup();
+    
+    adcSetup(1000000);
 
 	// Set status LEDS
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);

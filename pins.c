@@ -43,7 +43,7 @@
 #include "driverlib/pin_map.h"
 #include "driverlib/rom_map.h"
 #include "driverlib/gpio.h"
-#include "pin_map.h"
+#include "diverlib/pin_map.h"
 
 //*****************************************************************************
 void
@@ -52,10 +52,10 @@ PortFunctionInit(void)
     //
     // Enable Peripheral Clocks 
     //
-    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
-    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
+//     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_USB0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
@@ -122,29 +122,29 @@ PortFunctionInit(void)
     //
     MAP_GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_0);
 
-    //
-    // Enable port PB6 for TIMER0 T0CCP0
-    //
-    MAP_GPIOPinConfigure(GPIO_PB6_T0CCP0);
-    MAP_GPIOPinTypeTimer(GPIO_PORTB_BASE, GPIO_PIN_6);
+//     //
+//     // Enable port PB6 for TIMER0 T0CCP0
+//     //
+//     MAP_GPIOPinConfigure(GPIO_PB6_T0CCP0);
+//     MAP_GPIOPinTypeTimer(GPIO_PORTB_BASE, GPIO_PIN_6);
+// 
+//     //
+//     // Enable port PB7 for TIMER0 T0CCP1
+//     //
+//     MAP_GPIOPinConfigure(GPIO_PB7_T0CCP1);
+//     MAP_GPIOPinTypeTimer(GPIO_PORTB_BASE, GPIO_PIN_7);
 
-    //
-    // Enable port PB7 for TIMER0 T0CCP1
-    //
-    MAP_GPIOPinConfigure(GPIO_PB7_T0CCP1);
-    MAP_GPIOPinTypeTimer(GPIO_PORTB_BASE, GPIO_PIN_7);
-
-    //
-    // Enable port PA1 for UART0 U0TX
-    //
-    MAP_GPIOPinConfigure(GPIO_PA1_U0TX);
-    MAP_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_1);
-
-    //
-    // Enable port PA0 for UART0 U0RX
-    //
-    MAP_GPIOPinConfigure(GPIO_PA0_U0RX);
-    MAP_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0);
+//     //
+//     // Enable port PA1 for UART0 U0TX
+//     //
+//     MAP_GPIOPinConfigure(GPIO_PA1_U0TX);
+//     MAP_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_1);
+// 
+//     //
+//     // Enable port PA0 for UART0 U0RX
+//     //
+//     MAP_GPIOPinConfigure(GPIO_PA0_U0RX);
+//     MAP_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0);
 
     //
     // Enable port PD5 for USB0 USB0DP
