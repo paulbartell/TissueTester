@@ -15,8 +15,8 @@
 
 
 //Global variables
-unsigned long ulCurrent[1];				//Stores data read from ADC0 FIFO
-//unsigned long ulLVDT[1];				//Stores data read from ADC1 FIFO
+unsigned long ulCurrent[1] = {0};				//Stores data read from ADC0 FIFO
+unsigned long ulLVDT[1] = {0};				//Stores data read from ADC1 FIFO
 
 int main(void) {
 	unsigned long ulPeriod;				//Period for Timer0
@@ -74,10 +74,10 @@ int main(void) {
 		TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
 
 		//Clear any interrupts
-		ADCIntClear(ADC0_BASE, 1);
+		ADCIntClear(ADC0_BASE, 3);
 
 		//Begin sampling
-		ADCIntEnable(ADC0_BASE, 1);
+		ADCIntEnable(ADC0_BASE, 3);
 
 		//Turn on sequence interrupts for sequence 3
 		IntEnable(INT_ADC0SS3);
