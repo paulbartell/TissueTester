@@ -53,19 +53,14 @@ PortFunctionInit(void)
     //
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
-    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_USB0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-
-    //
-    // Enable port PE4 for ADC AIN9
-    //
-    MAP_GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_4);
 
     //
     // Enable port PB5 for ADC AIN11
@@ -78,11 +73,6 @@ PortFunctionInit(void)
     MAP_GPIOPinTypeADC(GPIO_PORTB_BASE, GPIO_PIN_4);
 
     //
-    // Enable port PD0 for ADC AIN7
-    //
-    MAP_GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_0);
-
-    //
     // Enable port PD3 for ADC AIN4
     //
     MAP_GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_3);
@@ -91,6 +81,16 @@ PortFunctionInit(void)
     // Enable port PE1 for ADC AIN2
     //
     MAP_GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_1);
+
+    //
+    // Enable port PD2 for ADC AIN5
+    //
+    MAP_GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_2);
+
+    //
+    // Enable port PD0 for ADC AIN7
+    //
+    MAP_GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_0);
 
     //
     // Enable port PD1 for ADC AIN6
@@ -108,14 +108,14 @@ PortFunctionInit(void)
     MAP_GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_2);
 
     //
-    // Enable port PD2 for ADC AIN5
-    //
-    MAP_GPIOPinTypeADC(GPIO_PORTD_BASE, GPIO_PIN_2);
-
-    //
     // Enable port PE3 for ADC AIN0
     //
     MAP_GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_3);
+
+    //
+    // Enable port PE4 for ADC AIN9
+    //
+    MAP_GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_4);
 
     //
     // Enable port PE0 for ADC AIN3
@@ -135,16 +135,16 @@ PortFunctionInit(void)
     MAP_GPIOPinTypeTimer(GPIO_PORTB_BASE, GPIO_PIN_7);
 
     //
-    // Enable port PF2 for TIMER1 T1CCP0
-    //
-    MAP_GPIOPinConfigure(GPIO_PF2_T1CCP0);
-    MAP_GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_2);
-
-    //
     // Enable port PF3 for TIMER1 T1CCP1
     //
     MAP_GPIOPinConfigure(GPIO_PF3_T1CCP1);
     MAP_GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_3);
+
+    //
+    // Enable port PF2 for TIMER1 T1CCP0
+    //
+    MAP_GPIOPinConfigure(GPIO_PF2_T1CCP0);
+    MAP_GPIOPinTypeTimer(GPIO_PORTF_BASE, GPIO_PIN_2);
 
     //
     // Enable port PA1 for UART0 U0TX
@@ -157,16 +157,4 @@ PortFunctionInit(void)
     //
     MAP_GPIOPinConfigure(GPIO_PA0_U0RX);
     MAP_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0);
-
-    //
-    // Enable port PD5 for USB0 USB0DP
-    //
-   // MAP_GPIOPinConfigure(GPIO_PD5_USB0DP);
-   // MAP_GPIOPinTypeUSBAnalog(GPIO_PORTD_BASE, GPIO_PIN_5);
-
-    //
-    // Enable port PD4 for USB0 USB0DM
-    //
-   // MAP_GPIOPinConfigure(GPIO_PD4_USB0DM);
-   // MAP_GPIOPinTypeUSBAnalog(GPIO_PORTD_BASE, GPIO_PIN_4);
 }
