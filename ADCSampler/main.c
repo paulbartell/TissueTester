@@ -1,5 +1,3 @@
-#define PART_LM4F120H5QR
-
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
 #include "inc/hw_ints.h"
