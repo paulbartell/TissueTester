@@ -118,7 +118,7 @@ interrupt void ADC0IntHandler(void) {
 	//Get data from ADC0 sequence 3
 	ADCSequenceDataGet(ADC0_BASE, 3, ulCurrent);
 
-	UARTprintf("Current: %u\n", ulCurrent[0]);
+	UARTprintf("Current: %u ", ulCurrent[0]);
 
 }
 
@@ -132,7 +132,7 @@ interrupt void ADC1IntHandler(void) {
 	//Get data from ADC0 sequence 3
 	ADCSequenceDataGet(ADC1_BASE, 3, ulLVDT);
 
-	UARTprintf("Displacement: %u\n", ulLVDT[0]);
+	UARTprintf("LVDT: %u\n", ulLVDT[0]);
 
 }
 
