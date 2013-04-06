@@ -12,6 +12,8 @@ $(GEN_CMDS__FLAG) \
 "./startup_ccs.obj" \
 "./newpins.obj" \
 "./main.obj" \
+"./PWMSetup.obj" \
+"./ADCSetup.obj" \
 -l"libc.a" \
 -l"C:\StellarisWare\driverlib\ccs-cm4f\Debug\driverlib-cm4f.lib" \
 "../lm4f120h5qr.cmd" \
@@ -126,8 +128,8 @@ Combined.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(TMS470_EXECUTABLE_OUTPUTS__QUOTED) "Combined.out"
-	-$(RM) "main.pp" "newpins.pp" "startup_ccs.pp" "uartstdio.pp" 
-	-$(RM) "main.obj" "newpins.obj" "startup_ccs.obj" "uartstdio.obj" 
+	-$(RM) "ADCSetup.pp" "PWMSetup.pp" "main.pp" "newpins.pp" "startup_ccs.pp" "uartstdio.pp" 
+	-$(RM) "ADCSetup.obj" "PWMSetup.obj" "main.obj" "newpins.obj" "startup_ccs.obj" "uartstdio.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
