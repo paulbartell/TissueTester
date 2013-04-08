@@ -36,7 +36,7 @@ int main(void) {
 	ADCSetup();
 
 	while(1) {
-		//SysCtlDelay(SysCtlClockGet() / (1000*3));
+		SysCtlDelay(SysCtlClockGet() / (1000*3));
 		UARTprintf("Current: %u ", ulCurrent[0]);
 		UARTprintf("LVDT: %u\n", ulLVDT[0]);
 	}

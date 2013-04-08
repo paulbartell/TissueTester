@@ -43,7 +43,7 @@ void ADCSetup(void) {
 		TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
 
 		//Calculate period for a pin toggle freq of 1MHz with 50% duty cycle
-		ulPeriod = (SysCtlClockGet() / 1000000) / 2;
+		ulPeriod = (SysCtlClockGet() / 100) / 2;
 		TimerLoadSet(TIMER0_BASE, TIMER_A, ulPeriod - 1);
 
 	/*
