@@ -4,7 +4,7 @@
  * Project: Tissue Tester
  *
  * This file includes the prototypes for the functions related to the PID controller which are called in the main.c 
- * of the Tissue Tester project. This file also defines the struct pid.
+ * of the Tissue Tester project. This file also defines the struct pid along with the ISRs related to the PID.
  *
  */
  
@@ -19,6 +19,8 @@
 	unsigned long output[];	// A pointer to the output of the PID
  };
  
- void pid_update(void);
+ void PIDIntHandlerCurrent(void);
+
+ void PIDIntHandlerLVDT(void);
  
  #endif // __PID_H__

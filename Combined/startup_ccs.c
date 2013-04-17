@@ -26,6 +26,8 @@ static void IntDefaultHandler(void);
 extern void _c_int00(void);
 extern interrupt void ADC0IntHandler(void);
 extern interrupt void ADC1IntHandler(void);
+extern interrupt void PIDIntHandlerCurrent(void);
+extern interrupt void PIDIntHandlerLVDT(void);
 
 //*****************************************************************************
 //
