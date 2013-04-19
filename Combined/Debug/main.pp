@@ -12,8 +12,11 @@ main.obj: C:/StellarisWare/driverlib/gpio.h
 main.obj: C:/StellarisWare/driverlib/pin_map.h
 main.obj: ../newpins.h
 main.obj: C:/StellarisWare/utils/uartstdio.h
+main.obj: C:/StellarisWare/driverlib/uart.h
+main.obj: C:/StellarisWare/inc/hw_uart.h
 main.obj: ../ADCSetup.h
 main.obj: ../PWMSetup.h
+main.obj: ../PID.h
 
 ../main.c: 
 C:/StellarisWare/inc/hw_memmap.h: 
@@ -27,5 +30,8 @@ C:/StellarisWare/driverlib/gpio.h:
 C:/StellarisWare/driverlib/pin_map.h: 
 ../newpins.h: 
 C:/StellarisWare/utils/uartstdio.h: 
+C:/StellarisWare/driverlib/uart.h: 
+C:/StellarisWare/inc/hw_uart.h: 
 ../ADCSetup.h: 
 ../PWMSetup.h: 
+../PID.h: 

@@ -35,6 +35,7 @@
 #include "driverlib/uart.h"
 #include "uartstdio.h"
 
+//#define UART_BUFFERED
 
 //*****************************************************************************
 //

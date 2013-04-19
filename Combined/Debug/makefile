@@ -13,6 +13,7 @@ $(GEN_CMDS__FLAG) \
 "./newpins.obj" \
 "./main.obj" \
 "./PWMSetup.obj" \
+"./PID.obj" \
 "./ADCSetup.obj" \
 -l"libc.a" \
 -l"C:\StellarisWare\driverlib\ccs-cm4f\Debug\driverlib-cm4f.lib" \
@@ -128,8 +129,8 @@ Combined.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(TMS470_EXECUTABLE_OUTPUTS__QUOTED) "Combined.out"
-	-$(RM) "ADCSetup.pp" "PWMSetup.pp" "main.pp" "newpins.pp" "startup_ccs.pp" "uartstdio.pp" 
-	-$(RM) "ADCSetup.obj" "PWMSetup.obj" "main.obj" "newpins.obj" "startup_ccs.obj" "uartstdio.obj" 
+	-$(RM) "ADCSetup.pp" "PID.pp" "PWMSetup.pp" "main.pp" "newpins.pp" "startup_ccs.pp" "uartstdio.pp" 
+	-$(RM) "ADCSetup.obj" "PID.obj" "PWMSetup.obj" "main.obj" "newpins.obj" "startup_ccs.obj" "uartstdio.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

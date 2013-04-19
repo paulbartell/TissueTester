@@ -17,6 +17,6 @@
 void pwmSetup(void);
 
 // Prototype for the function that is called when the user needs to set up the duty cycle of the PWM.
-void pwmSetDuty(unsigned long);
+void pwmSetDuty(long);
 
 #endif /* __PWMSETUP_H_ */

@@ -24,7 +24,7 @@
 
 #define SEQUENCER 3
 #define PRIORITY 0
-#define AVGSAMPLES 64
+#define AVGSAMPLES 0
 
 extern unsigned long ulCurrent[];
 extern unsigned long ulLVDT[];
@@ -54,8 +54,8 @@ void ADCSetup(void) {
 
 		//Set the ADC sample rate to 500 KSPS
 		SysCtlADCSpeedSet(SYSCTL_ADCSPEED_500KSPS);
-		ADCHardwareOversampleConfigure(ADC0_BASE, AVGSAMPLES);
-		ADCHardwareOversampleConfigure(ADC1_BASE, AVGSAMPLES);
+		//ADCHardwareOversampleConfigure(ADC0_BASE, AVGSAMPLES);
+		//ADCHardwareOversampleConfigure(ADC1_BASE, AVGSAMPLES);
 
 		//Disable ADC0 sequencer 3 (so that we can configure it)
 		ADCSequenceDisable(ADC0_BASE, SEQUENCER);

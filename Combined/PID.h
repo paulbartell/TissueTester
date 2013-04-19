@@ -11,16 +11,25 @@
  #ifndef __PID_H__
  #define __PID_H__
  
- struct pid {
+typedef struct PID {
 	float Kp;		// Proportional gain
 	float Ki;		// Integral gain
 	float Kd;		// Derivative gain
-	unsigned long input[];	// A pointer to the input of the PID
-	unsigned long output[];	// A pointer to the output of the PID
- };
+	unsigned long *input;	// A pointer to the input of the PID
+	unsigned long *output;	// A pointer to the output of the PID
+ } PID;
  
+<<<<<<< HEAD
  void PIDIntHandlerCurrent(void);
 
  void PIDIntHandlerLVDT(void);
+=======
+
+ void LVDTPIDInit(float, float, float);
+
+ interrupt void PID1IntHandler(void);
+
+ interrupt void PID2IntHandler(void);
+>>>>>>> Edited PID.c
  
  #endif // __PID_H__

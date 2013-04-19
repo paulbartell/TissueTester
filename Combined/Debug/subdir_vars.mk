@@ -8,6 +8,7 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../ADCSetup.c \
+../PID.c \
 ../PWMSetup.c \
 ../main.c \
 ../newpins.c \
@@ -16,6 +17,7 @@ C_SRCS += \
 
 OBJS += \
 ./ADCSetup.obj \
+./PID.obj \
 ./PWMSetup.obj \
 ./main.obj \
 ./newpins.obj \
@@ -24,6 +26,7 @@ OBJS += \
 
 C_DEPS += \
 ./ADCSetup.pp \
+./PID.pp \
 ./PWMSetup.pp \
 ./main.pp \
 ./newpins.pp \
@@ -32,6 +35,7 @@ C_DEPS += \
 
 C_DEPS__QUOTED += \
 "ADCSetup.pp" \
+"PID.pp" \
 "PWMSetup.pp" \
 "main.pp" \
 "newpins.pp" \
@@ -40,6 +44,7 @@ C_DEPS__QUOTED += \
 
 OBJS__QUOTED += \
 "ADCSetup.obj" \
+"PID.obj" \
 "PWMSetup.obj" \
 "main.obj" \
 "newpins.obj" \
@@ -48,6 +53,7 @@ OBJS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../ADCSetup.c" \
+"../PID.c" \
 "../PWMSetup.c" \
 "../main.c" \
 "../newpins.c" \
