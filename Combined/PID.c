@@ -19,10 +19,9 @@ extern float Kp;
 extern float Ki;
 extern float Kd;
 long LVDTPIDOutput[1] = {0};			//Output from the LVDT controller
-long error;
-PID LVDTController;
-int arrayIndex = 0;						//Index for the error array
-
+long yLast = 0;
+PID LVDTController;						//Pointer to the PID struct LVDTController
+int arrayIndex = 0;						//Index for the integral array
 
 void LVDTPIDInit(void) {
 	//Initialize the controller's gains as well as input and output
@@ -31,19 +30,35 @@ void LVDTPIDInit(void) {
 	LVDTController.Kp = &Kp;
 	LVDTController.x = &setPoint;
 	LVDTController.y = ulLVDT;
+	LVDTController.yLast = &yLast;
 	LVDTController.u = LVDTPIDOutput;
 
 }
 
 void PIDIntHandlerLVDT(void) {
-	long P = 0;
+	float pValue = 0.0;
+	float dValue = 0.0;
+	float error = 0.0;
+	//float Td = (*LVDTController.Kd)/(*LVDTController.Kp);
+	//int N = 15;
+	//float samplingTime = 1/7000;
 
 	//Compute the error
-	error = (*LVDTController.y) - (*LVDTController.x);
+	error = *LVDTController.y - *LVDTController.x;
 
 	//Compute the P portion of the controller
-	P = (*LVDTController.Kp)*error;
+	pValue = (*LVDTController.Kp)*error;
 
 	//Compute the D portion of the controller
+	/*
+	 * Complicated D term
+	 */
+	//dValue[1] = (Td/(Td+N*samplingTime))*dValue[0] -
+
+	/*
+	 * Non-complicated D term
+	 */
+	dValue = (*LVDTController.Kd)*(*LVDTController.yLast - *LVDTController.y);
+	*LVDTController.yLast = *LVDTController.y;
 
 }

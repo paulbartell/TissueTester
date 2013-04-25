@@ -17,6 +17,7 @@ typedef struct PID {
 	float* Kd;		// Derivative gain
 	long* x;		// A pointer to the desired trajectory element
 	long* y;		// A pointer to the output of the system
+	long* yLast;	// A pointer to the last output of the system (for calculating D term)
 	long* u;		// A pointer to the output of the PID
  } PID;
 
