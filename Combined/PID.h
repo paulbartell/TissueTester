@@ -12,11 +12,12 @@
  #define __PID_H__
  
 typedef struct PID {
-	float Kp;		// Proportional gain
-	float Ki;		// Integral gain
-	float Kd;		// Derivative gain
-	unsigned long *input;	// A pointer to the input of the PID
-	unsigned long *output;	// A pointer to the output of the PID
+	float* Kp;		// Proportional gain
+	float* Ki;		// Integral gain
+	float* Kd;		// Derivative gain
+	long* x;		// A pointer to the desired trajectory element
+	long* y;		// A pointer to the output of the system
+	long* u;		// A pointer to the output of the PID
  } PID;
 
 void PIDIntHandlerLVDT(void);

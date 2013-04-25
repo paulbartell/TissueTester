@@ -37,23 +37,22 @@ void pwmSetup() {
 	TimerMatchSet(TIMER1_BASE, TIMER_A, 0); // set duty cycle to 0
 	TimerEnable(TIMER1_BASE, TIMER_A);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-    //GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3);
-    //GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, 5);
 }
 
 // Sets our duty cycle
 void pwmSetDuty(long duty) {
 
 	if (duty > 0){ // positive
-		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6|GPIO_PIN_7, 2);
-		TimerMatchSet(TIMER1_BASE, TIMER_A, duty);
+		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 255);
+		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 0);
+		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod - duty - 1);
 	} else if(duty < 0){ // negative
-		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6|GPIO_PIN_7, 1);
-		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod + duty);
+		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 0);
+		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 255);
+		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod + duty + 1);
 	}else{ // Motor Stop
-		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6|GPIO_PIN_7, 3);
-		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod);
+		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 255);
+		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 255);
+		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod - 2);
 	}
-
-	TimerMatchSet(TIMER1_BASE, TIMER_A, duty);
 }

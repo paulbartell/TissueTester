@@ -21,6 +21,7 @@
 // This is part of revision 9453 of the Stellaris Firmware Development Package.
 //
 //*****************************************************************************
+#define UART_BUFFERED
 
 #include <stdarg.h>
 #include "inc/hw_ints.h"
@@ -35,7 +36,6 @@
 #include "driverlib/uart.h"
 #include "uartstdio.h"
 
-//#define UART_BUFFERED
 
 //*****************************************************************************
 //

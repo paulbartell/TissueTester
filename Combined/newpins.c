@@ -157,4 +157,6 @@ PortFunctionInit(void)
     //
     MAP_GPIOPinConfigure(GPIO_PA0_U0RX);
     MAP_GPIOPinTypeUART(GPIO_PORTA_BASE, GPIO_PIN_0);
+
+    MAP_GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_6|GPIO_PIN_7);
 }
