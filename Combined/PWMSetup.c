@@ -49,7 +49,7 @@ void pwmSetDuty(long duty) {
 	} else if(duty < 0){ // negative
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 0);
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 255);
-		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod + duty + 1);
+		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod + duty -2);
 	}else{ // Motor Stop
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 255);
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 255);

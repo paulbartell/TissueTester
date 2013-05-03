@@ -23,10 +23,11 @@ long ulLVDT[1] = {0};				    //Stores data read from ADC1 FIFO
 unsigned long dutyCycle = 0;					//Duty cycle for the PWM
 unsigned long pwmPeriod = 0;					//Period for the PWM
 long setPoint = 0;
-float Kp = 0;
+float Kp = 0.25;
 float Ki = 0;
 float Kd = 0;
 char str [5];
+extern PID LVDTController;
 
 
 
@@ -44,17 +45,19 @@ int main(void) {
 
     pwmSetup();
 
-    pwmSetDuty(500);
+    pwmSetDuty(0);
 
 	ADCSetup();
+
+	LVDTPIDInit();
 
 	while(1) {
 		SysCtlDelay(SysCtlClockGet() / (100*3));
 
 		if (UARTPeek('\r') != -1) {
-			dutynumber = 0;
 			UARTgets(str,5);
-			while (count < 4) {
+			dutynumber = 0;
+			while (count < 5) {
 				if (str[count] >= '0' && str[count] <= '9'){
 					dutynumber = dutynumber*10 + (str[count] - '0');
 					count++;
@@ -66,13 +69,29 @@ int main(void) {
 			}
 			if(str[0] == '-'){
 				dutynumber = -dutynumber;
+				count = 0;
+				//pwmSetDuty(dutynumber);
+				setPoint = dutynumber;
+				//setPoint = 3000;
+				UARTprintf("duty set to %d\n", dutynumber);
+			}else if(str[0] == 0){
+				UARTprintf("C: %u ", ulCurrent[0]);
+				UARTFlushTx(0);
+				UARTprintf("L: %u ", ulLVDT[0]);
+				UARTFlushTx(0);
+				UARTprintf("S: %d", setPoint);
+				UARTFlushTx(0);
+				UARTprintf("u: %d", *LVDTController.u);
+				UARTFlushTx(0);
+			}else{
+				count = 0;
+				//pwmSetDuty(dutynumber);
+				setPoint = dutynumber;
+				//setPoint = 3000;
+				UARTprintf("duty set to %d\n", dutynumber);
 			}
-			count = 0;
-			pwmSetDuty(dutynumber);
-			UARTprintf("duty set to %d\n", dutynumber);
 		}
-		//UARTprintf("Current: %u ", ulCurrent[0]);
-		//UARTprintf("LVDT: %u\n", ulLVDT[0]);
+
 	}
 
 }

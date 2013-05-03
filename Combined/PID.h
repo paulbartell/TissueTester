@@ -21,7 +21,9 @@ typedef struct PID {
 	long* u;		// A pointer to the output of the PID
  } PID;
 
-void PIDIntHandlerLVDT(void);
+void LVDTPIDInit(void);
+
+interrupt void PIDIntHandlerLVDT(void);
 
  
  #endif // __PID_H__
