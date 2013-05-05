@@ -36,6 +36,14 @@ long yLast = 0;
 PID LVDTController;						//Pointer to the PID struct LVDTController
 int arrayIndex = 0;						//Index for the integral array
 
+unsigned long round(float num){
+	if (num > (unsigned long)num){
+		return (unsigned long)num + 1;
+	}else{
+		return (unsigned long)num;
+	}
+}
+
 void LVDTPIDInit(void) {
 	//Initialize the controller's gains as well as input and output
 	LVDTController.Kd = &Kd;
@@ -60,7 +68,7 @@ interrupt void PIDIntHandlerLVDT(void) {
 	float pValue = 0.0;
 	float dValue = 0.0;
 	float error = 0.0;
-	float DCoffset = 0;
+	float DCoffset = 550;
 	//float Td = (*LVDTController.Kd)/(*LVDTController.Kp);
 	//int N = 15;
 	//float samplingTime = 1/7000;
@@ -68,7 +76,7 @@ interrupt void PIDIntHandlerLVDT(void) {
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
 
 	//Compute the error
-	error = *LVDTController.y - *LVDTController.x;
+	error = *LVDTController.x - *LVDTController.y;
 
 	//Compute the P portion of the controller
 	pValue = (*LVDTController.Kp)*error;
@@ -85,7 +93,7 @@ interrupt void PIDIntHandlerLVDT(void) {
 	dValue = (*LVDTController.Kd)*(*LVDTController.yLast - *LVDTController.y);
 	*LVDTController.yLast = *LVDTController.y;
 
-	(*LVDTController.u) = pValue + dValue;
-	pwmSetDuty(*LVDTController.u);
+	(*LVDTController.u) = pValue + dValue + DCoffset;
+	pwmSetDuty(round(*LVDTController.u));
 	//pwmSetDuty(setPoint);
 }

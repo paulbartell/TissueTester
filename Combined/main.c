@@ -23,8 +23,8 @@ long ulLVDT[1] = {0};				    //Stores data read from ADC1 FIFO
 unsigned long dutyCycle = 0;					//Duty cycle for the PWM
 unsigned long pwmPeriod = 0;					//Period for the PWM
 long setPoint = 0;
-float Kp = 0.25;
-float Ki = 0;
+float Kp = 0.05;
+float Ki = 7.69/100000;
 float Kd = 0;
 char str [5];
 extern PID LVDTController;
@@ -45,7 +45,7 @@ int main(void) {
 
     pwmSetup();
 
-    pwmSetDuty(0);
+    //pwmSetDuty(0);
 
 	ADCSetup();
 
@@ -55,7 +55,7 @@ int main(void) {
 		SysCtlDelay(SysCtlClockGet() / (100*3));
 
 		if (UARTPeek('\r') != -1) {
-			UARTgets(str,5);
+			UARTgets(str,6);
 			dutynumber = 0;
 			while (count < 5) {
 				if (str[count] >= '0' && str[count] <= '9'){
