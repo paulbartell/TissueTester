@@ -23,9 +23,6 @@ long ulLVDT[1] = {0};				    //Stores data read from ADC1 FIFO
 unsigned long dutyCycle = 0;					//Duty cycle for the PWM
 unsigned long pwmPeriod = 0;					//Period for the PWM
 long setPoint = 0;
-float Kp = 0.05;
-float Ki = 7.69/100000;
-float Kd = 0;
 char str [5];
 extern PID LVDTController;
 
@@ -34,14 +31,15 @@ extern PID LVDTController;
 int main(void) {
 	int count = 0;			//Counter for input loop
 	signed long dutynumber = 0;
+
+	//Set system clock to 80 MHz
+	SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
+
 	//Enable all required peripherals
 	PortFunctionInit();
 
 	//Enable console communication with UART
 	UARTStdioInit(0);
-
-	//Set system clock to 80 MHz
-	SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
 
     pwmSetup();
 
