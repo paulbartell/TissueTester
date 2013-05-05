@@ -13,7 +13,9 @@ C_SRCS += \
 ../main.c \
 ../newpins.c \
 ../startup_ccs.c \
-../uartstdio.c 
+../uartstdio.c \
+../usb.c \
+../usb_structs.c 
 
 OBJS += \
 ./ADCSetup.obj \
@@ -22,7 +24,9 @@ OBJS += \
 ./main.obj \
 ./newpins.obj \
 ./startup_ccs.obj \
-./uartstdio.obj 
+./uartstdio.obj \
+./usb.obj \
+./usb_structs.obj 
 
 C_DEPS += \
 ./ADCSetup.pp \
@@ -31,7 +35,9 @@ C_DEPS += \
 ./main.pp \
 ./newpins.pp \
 ./startup_ccs.pp \
-./uartstdio.pp 
+./uartstdio.pp \
+./usb.pp \
+./usb_structs.pp 
 
 C_DEPS__QUOTED += \
 "ADCSetup.pp" \
@@ -40,7 +46,9 @@ C_DEPS__QUOTED += \
 "main.pp" \
 "newpins.pp" \
 "startup_ccs.pp" \
-"uartstdio.pp" 
+"uartstdio.pp" \
+"usb.pp" \
+"usb_structs.pp" 
 
 OBJS__QUOTED += \
 "ADCSetup.obj" \
@@ -49,7 +57,9 @@ OBJS__QUOTED += \
 "main.obj" \
 "newpins.obj" \
 "startup_ccs.obj" \
-"uartstdio.obj" 
+"uartstdio.obj" \
+"usb.obj" \
+"usb_structs.obj" 
 
 C_SRCS__QUOTED += \
 "../ADCSetup.c" \
@@ -58,6 +68,8 @@ C_SRCS__QUOTED += \
 "../main.c" \
 "../newpins.c" \
 "../startup_ccs.c" \
-"../uartstdio.c" 
+"../uartstdio.c" \
+"../usb.c" \
+"../usb_structs.c" 
 
 

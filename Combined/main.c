@@ -1,4 +1,4 @@
-#define UART_BUFFERED
+//#define UART_BUFFERED
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
 #include "inc/hw_ints.h"
@@ -16,6 +16,17 @@
 #include "ADCSetup.h"
 #include "PWMSetup.h"
 #include "PID.h"
+#include "driverlib/rom.h"
+#include "usblib/usblib.h"
+//#include "usblib/device/usbdhandler.c"
+//#include "usblib/usb-ids.h"
+//#include "usblib/device/usbdevice.h"
+//#include "usblib/device/usbdbulk.h"
+
+//SYSTICK stuff
+#define SYSTICKS_PER_SECOND     100
+#define SYSTICK_PERIOD_MS       (1000 / SYSTICKS_PER_SECOND)
+volatile unsigned long g_ulSysTickCount = 0;
 
 //Global variables
 long ulCurrent[1] = {0};				//Stores data read from ADC0 FIFO
@@ -37,21 +48,35 @@ int main(void) {
 	//Enable all required peripherals
 	PortFunctionInit();
 
-	//Enable console communication with UART
-	UARTStdioInit(0);
+	ROM_FPULazyStackingEnable();
 
 	//Set system clock to 80 MHz
-	SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
+	ROM_SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
+
+    ROM_SysTickPeriodSet(ROM_SysCtlClockGet() / SYSTICKS_PER_SECOND);
+    ROM_SysTickIntEnable();
+    ROM_SysTickEnable();
+
+	//Enable console communication with UART0
+	UARTStdioInit(0);
+	UARTprintf("test1");
+	//UsbInit();
+
+
 
     pwmSetup();
+	UARTprintf("test2");
 
     //pwmSetDuty(0);
 
 	ADCSetup();
+	UARTprintf("test3");
 
 	LVDTPIDInit();
+	UARTprintf("test4");
 
 	while(1) {
+		UARTprintf("iter");
 		SysCtlDelay(SysCtlClockGet() / (100*3));
 
 		if (UARTPeek('\r') != -1) {

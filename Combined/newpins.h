@@ -37,7 +37,7 @@
 
 #ifndef __NEWPINS_H__
 #define __NEWPINS_H__
-#define PART_LM4F120H5QR
+//#define PART_LM4F120H5QR
 
 extern void PortFunctionInit(void);
 
