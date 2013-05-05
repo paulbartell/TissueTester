@@ -24,12 +24,7 @@ static void IntDefaultHandler(void);
 //
 //*****************************************************************************
 extern void _c_int00(void);
-extern interrupt void ADC0IntHandler(void);
-extern interrupt void ADC1IntHandler(void);
-extern interrupt void PIDIntHandlerLVDT(void);
-extern void SysTickIntHandler(void);
-extern void UARTStdioIntHandler(void);
-extern void USB0DeviceIntHandler(void);
+
 
 //*****************************************************************************
 //
@@ -37,6 +32,18 @@ extern void USB0DeviceIntHandler(void);
 //
 //*****************************************************************************
 extern unsigned long __STACK_TOP;
+
+//*****************************************************************************
+//
+// External declarations for the interrupt handles used by the application.
+//
+//*****************************************************************************
+extern interrupt void ADC0IntHandler(void);
+extern interrupt void ADC1IntHandler(void);
+extern interrupt void PIDIntHandlerLVDT(void);
+extern void SysTickIntHandler(void);
+extern void UARTStdioIntHandler(void);
+extern void USB0DeviceIntHandler(void);
 
 //*****************************************************************************
 //

@@ -8,10 +8,13 @@ CG_TOOL_ROOT := C:/ti/ccsv5/tools/compiler/arm_4.9.7
 
 ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
+"./ustdlib.obj" \
 "./uartstdio.obj" \
 "./startup_ccs.obj" \
 "./newpins.obj" \
 "./main.obj" \
+"./cmdline.obj" \
+"./app_commands.obj" \
 "./PWMSetup.obj" \
 "./PID.obj" \
 "./ADCSetup.obj" \
@@ -122,15 +125,15 @@ all: Combined.out
 Combined.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv5/tools/compiler/arm_4.9.7/bin/cl470" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --diag_warning=225 --display_error_number -z --stack_size=256 -m"Combined.map" --heap_size=0 -i"C:/ti/ccsv5/tools/compiler/arm_4.9.7/lib" -i"C:/ti/ccsv5/tools/compiler/arm_4.9.7/include" --reread_libs --warn_sections --display_error_number --rom_model -o "Combined.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/arm_4.9.7/bin/cl470" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -g --define=css="ccs" --define=PART_LM4F120H5QR --define=TARGET_IS_BLIZZARD_RA2 --define=UART_BUFFERED --diag_warning=225 --display_error_number -z --stack_size=256 -m"Combined.map" --heap_size=0 -i"C:/ti/ccsv5/tools/compiler/arm_4.9.7/lib" -i"C:/ti/ccsv5/tools/compiler/arm_4.9.7/include" --reread_libs --warn_sections --display_error_number --rom_model -o "Combined.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(TMS470_EXECUTABLE_OUTPUTS__QUOTED) "Combined.out"
-	-$(RM) "ADCSetup.pp" "PID.pp" "PWMSetup.pp" "main.pp" "newpins.pp" "startup_ccs.pp" "uartstdio.pp" 
-	-$(RM) "ADCSetup.obj" "PID.obj" "PWMSetup.obj" "main.obj" "newpins.obj" "startup_ccs.obj" "uartstdio.obj" 
+	-$(RM) "ADCSetup.pp" "PID.pp" "PWMSetup.pp" "app_commands.pp" "cmdline.pp" "main.pp" "newpins.pp" "startup_ccs.pp" "uartstdio.pp" "ustdlib.pp" 
+	-$(RM) "ADCSetup.obj" "PID.obj" "PWMSetup.obj" "app_commands.obj" "cmdline.obj" "main.obj" "newpins.obj" "startup_ccs.obj" "uartstdio.obj" "ustdlib.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

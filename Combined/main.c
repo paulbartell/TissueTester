@@ -1,21 +1,22 @@
-#define UART_BUFFERED
-#include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
+#include "inc/hw_memmap.h"
 #include "inc/hw_ints.h"
 #include "inc/hw_memmap.h"
+#include "inc/hw_uart.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/timer.h"
 #include "driverlib/sysctl.h"
 #include "driverlib/adc.h"
 #include "driverlib/gpio.h"
 #include "driverlib/pin_map.h"
-#include "newpins.h"
-#include "utils/uartstdio.h"
 #include "driverlib/uart.h"
-#include "inc/hw_uart.h"
+#include "utils/uartstdio.h"
+#include "utils/cmdline.h"
+#include "newpins.h"
 #include "ADCSetup.h"
 #include "PWMSetup.h"
 #include "PID.h"
+#include "app_commands.h"
 
 //Global variables
 long ulCurrent[1] = {0};				//Stores data read from ADC0 FIFO
@@ -25,12 +26,14 @@ unsigned long pwmPeriod = 0;					//Period for the PWM
 long setPoint = 0;
 char str [5];
 extern PID LVDTController;
+static char g_cInput[APP_INPUT_BUF_SIZE];	//Input buffer for the command line interpreter.
 
 
 
 int main(void) {
-	int count = 0;			//Counter for input loop
-	signed long dutynumber = 0;
+	//int count = 0;			//Counter for input loop
+	//signed long dutynumber = 0;
+	long lCommandStatus;
 
 	//Set system clock to 80 MHz
 	SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
@@ -49,9 +52,49 @@ int main(void) {
 
 	LVDTPIDInit();
 
-	while(1) {
-		SysCtlDelay(SysCtlClockGet() / (100*3));
+	UARTprintf("Welcome to the BRL Tissue Testing interface!\n");
+	UARTprintf("Type 'help' for a list of commands\n");
+	UARTprintf("> ");
 
+	SysCtlDelay(SysCtlClockGet() / (1000/3));
+
+	while(1) {
+		UARTprintf("\n>");
+		/*
+		 * Peek to see if a full command is ready for processing
+		 */
+		while(UARTPeek('\r') == -1) {
+			SysCtlDelay(SysCtlClockGet() / (1000/3));
+		}
+
+	/*
+	 * a '/r' was detected so get the line of text from the user.
+	 */
+	UARTgets(g_cInput, sizeof(g_cInput));
+
+	/*
+	 * Pass the line from the user to the command processor.
+	 * It will be parsed and valid commands executed.
+	 */
+	lCommandStatus = CmdLineProcess(g_cInput);
+
+	/*
+	 * Handle the case of bad command.
+	 */
+	if(lCommandStatus == CMDLINE_BAD_CMD) {
+		UARTprintf("Bad command!\n");
+	}
+
+	/*
+	 * Handle the case of too many arguments
+	 */
+	else if(lCommandStatus == CMDLINE_TOO_MANY_ARGS) {
+		UARTprintf("Too many arguments for command processor!\n");
+	}
+
+
+
+		/*
 		if (UARTPeek('\r') != -1) {
 			UARTgets(str,6);
 			dutynumber = 0;
@@ -89,7 +132,7 @@ int main(void) {
 				UARTprintf("duty set to %d\n", dutynumber);
 			}
 		}
-
+		 */
 	}
 
 }
