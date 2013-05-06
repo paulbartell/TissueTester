@@ -11,7 +11,7 @@ main.obj: C:/StellarisWare/driverlib/sysctl.h
 main.obj: C:/StellarisWare/driverlib/adc.h
 main.obj: C:/StellarisWare/driverlib/gpio.h
 main.obj: C:/StellarisWare/driverlib/pin_map.h
-main.obj: C:/StellarisWare/driverlib/uart.h
+main.obj: C:/StellarisWare/driverlib/rom.h
 main.obj: C:/StellarisWare/utils/uartstdio.h
 main.obj: C:/StellarisWare/utils/cmdline.h
 main.obj: ../newpins.h
@@ -31,7 +31,7 @@ C:/StellarisWare/driverlib/sysctl.h:
 C:/StellarisWare/driverlib/adc.h: 
 C:/StellarisWare/driverlib/gpio.h: 
 C:/StellarisWare/driverlib/pin_map.h: 
-C:/StellarisWare/driverlib/uart.h: 
+C:/StellarisWare/driverlib/rom.h: 
 C:/StellarisWare/utils/uartstdio.h: 
 C:/StellarisWare/utils/cmdline.h: 
 ../newpins.h: 

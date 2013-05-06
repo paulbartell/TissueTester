@@ -9,7 +9,7 @@
 #include "driverlib/adc.h"
 #include "driverlib/gpio.h"
 #include "driverlib/pin_map.h"
-#include "driverlib/uart.h"
+#include "driverlib/rom.h"
 #include "utils/uartstdio.h"
 #include "utils/cmdline.h"
 #include "newpins.h"
@@ -57,6 +57,8 @@ int main(void) {
 	UARTprintf("> ");
 
 	SysCtlDelay(SysCtlClockGet() / (1000/3));
+
+    IntMasterEnable();
 
 	while(1) {
 		UARTprintf("\n>");

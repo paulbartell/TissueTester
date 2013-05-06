@@ -38,6 +38,6 @@
 #ifndef __NEWPINS_H__
 #define __NEWPINS_H__
 
-extern void PortFunctionInit(void);
+void PortFunctionInit(void);
 
 #endif //  __NEWPINS_H__
