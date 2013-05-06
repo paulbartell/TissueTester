@@ -22,7 +22,9 @@
 #include "utils/uartstdio.h"
 #include "PWMSetup.h"
 
-#define MAX_IVALUE 0.001				//Arbitrarily set, needs testing.
+#define MAX_IVALUE 1024				//Arbitrarily set, needs testing.
+#define ACTUALKI 3.0/100000
+#define UMAX 1024.0
 
 extern long ulCurrent[1];				//Stores data read from ADC0 FIFO
 extern long ulLVDT[1];				    //Stores data read from ADC1 FIFO
@@ -32,16 +34,16 @@ long LVDTPIDOutput[1] = {0};			//Output from the LVDT controller
 long yLast = 0;
 float sumError = 0.0;
 PID LVDTController;						//PID struct LVDTController
-float Kp = 0.05;
-float Ki = 0.0000769;
+float Kp = 0.075;
+float Ki = ACTUALKI;//3.0/100000; // 7.69/100000
 float Kd = 0;
 float maxSumError = 0.0;
 
 unsigned long round(float num){
-	if (num > (unsigned long)num){
-		return (unsigned long)num + 1;
+	if (num > (long)num){
+		return (long)num + 1;
 	}else{
-		return (unsigned long)num;
+		return (long)num;
 	}
 }
 
@@ -57,7 +59,7 @@ void LVDTPIDInit(void) {
 	LVDTController.sumError = &sumError;
 	LVDTController.maxSumError = &maxSumError;
 
-	maxSumError = MAX_IVALUE / (0.0000769 + 1);
+	maxSumError = MAX_IVALUE / ((ACTUALKI) + 1.0);
 
 	//Enable the Timer 2 interrupt so that the PID code triggers off
 	//of the PWM timer.
@@ -72,9 +74,9 @@ void LVDTPIDInit(void) {
 interrupt void PIDIntHandlerLVDT(void) {
 	float pValue = 0.0;
 	float dValue = 0.0;
-	float iValue = 0.0;
+	float iValue = 560.0;
 	float error = 0.0;
-	float DCoffset = 550;
+	float DCoffset = 0.0;
 	float temp = 0.0;
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
@@ -94,24 +96,30 @@ interrupt void PIDIntHandlerLVDT(void) {
 	*LVDTController.yLast = *LVDTController.y;
 
 	//Compute the I portion of the controller
-	temp = *LVDTController.sumError + error;
-	if (temp > *LVDTController.maxSumError) {
+	temp = (*LVDTController.sumError + error)*Ki;
+
+	if (temp > MAX_IVALUE) {
 		iValue = MAX_IVALUE;
-		*LVDTController.sumError = *LVDTController.maxSumError;
+		*LVDTController.sumError = MAX_IVALUE / Ki;
 	}
-	else if (temp < -(*LVDTController.maxSumError)) {
+	else if (temp < -(MAX_IVALUE)) {
 		iValue = -MAX_IVALUE;
-		*LVDTController.sumError = -(*LVDTController.maxSumError);
+		*LVDTController.sumError = -(MAX_IVALUE / Ki);
 	}
 	else {
-		*LVDTController.sumError = temp;
+
+		*LVDTController.sumError = *LVDTController.sumError + error;
 		iValue = (*LVDTController.Ki)*(*LVDTController.sumError);
 	}
 
 	//Calculate controller effort
 	(*LVDTController.u) = pValue + dValue + iValue + DCoffset;
 
-	//Send control signal to PWM generator
-	pwmSetDuty(round(*LVDTController.u));
-	//pwmSetDuty(setPoint);
+	if(*LVDTController.u > (UMAX)){
+		pwmSetDuty((UMAX));
+	} else if (*LVDTController.u < -(UMAX)){
+		pwmSetDuty(-(UMAX));
+	}else{
+		pwmSetDuty(round(*LVDTController.u));
+	}
 }

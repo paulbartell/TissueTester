@@ -49,6 +49,8 @@ int main(void) {
 
 	LVDTPIDInit();
 
+	setPoint = 1000;
+
 	while(1) {
 		SysCtlDelay(SysCtlClockGet() / (100*3));
 
