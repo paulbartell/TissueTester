@@ -19,11 +19,11 @@ extern PID LVDTController;
 tCmdLineEntry g_sCmdTable[] =
 {
 		{"help",	CMD_help,	" : Display list of commands" },
-		{"set_Kp_LVDT",	CMD_set_Kp_LVDT,	" : Set a value for Kp" },
-		{"set_Ki_LVDT",	CMD_set_Ki_LVDT,	" : Set a value for Ki" },
-		{"set_Kd_LVDT",	CMD_set_Kd_LVDT,	" : Set a value for Kd"	},
-		{"set_trajectory",	CMD_set_trajectory,	" : Set the trajectory"	},
-		{ 0, 0, "--teriminating entry--" }
+		{"setKpLVDT",	CMD_setKpLVDT,	" : Set a value for Kp" },
+		{"setKiLVDT",	CMD_setKiLVDT,	" : Set a value for Ki" },
+		{"setKdLVDT",	CMD_setKdLVDT,	" : Set a value for Kd"	},
+		{"setTrajectory",	CMD_setTrajectory,	" : Set the trajectory"	},
+		{ 0, 0, 0 }
 };
 
 const int NUM_CMD = sizeof(g_sCmdTable)/sizeof(tCmdLineEntry);
@@ -56,7 +56,7 @@ int CMD_help(int argc, char **argv) {
  *
  * Allows user to set the value for Kp in the LVDT controller
  */
-int CMD_set_Kp_LVDT(int argc, char **argv) {
+int CMD_setKpLVDT(int argc, char **argv) {
 	float newKp = 0.0;
 
 	if (argc == 2) {
@@ -71,7 +71,7 @@ int CMD_set_Kp_LVDT(int argc, char **argv) {
  *
  * Allows user to set the value for Ki in the LVDT controller
  */
-int CMD_set_Ki_LVDT(int argc, char **argv) {
+int CMD_setKiLVDT(int argc, char **argv) {
 	float newKi = 0.0;
 
 	if (argc == 2) {
@@ -86,7 +86,7 @@ int CMD_set_Ki_LVDT(int argc, char **argv) {
  *
  * Allows user to set the value for Kd in the LVDT controller
  */
-int CMD_set_Kd_LVDT(int argc, char **argv) {
+int CMD_setKdLVDT(int argc, char **argv) {
 	float newKd = 0.0;
 
 	if (argc == 2) {
@@ -102,7 +102,7 @@ int CMD_set_Kd_LVDT(int argc, char **argv) {
  * Allows the user to set the trajectory of the indenter. The input trajectory
  * must be between 0 and 4095.
  */
-int CMD_set_trajectory(int argc, char **argv) {
+int CMD_setTrajectory(int argc, char **argv) {
 	long newTrajectory = 0;
 
 	if (argc == 2) {
@@ -127,24 +127,26 @@ float strToFloat(char *arg) {
 	int j = 0;
 	int power = 0;
 
-	while(arg[i] != '.' || arg[i] != '\0') {
+	while(*arg != '.' && *arg != 0) {
 		if (arg[i] == BACKSPACE) {
 			continue;
 		}
 		i++;
+		arg++;
 	}
 
+	arg = &arg[0];
 	power = i-1;
 	for (j = 0; j < i; j++) {
-		if (arg[j] == BACKSPACE) {
+		if (*arg == BACKSPACE) {
 			continue;
 		}
-		temp1 += (arg[j] - '0')*10^(power);
+		temp1 += (*arg - '0')*10^(power);
 		power--;
 	}
 
-	while(arg[i] != '\0') {
-		if (arg[i] == BACKSPACE) {
+	while(*arg != 0) {
+		if (*arg == BACKSPACE) {
 			continue;
 		}
 			i++;

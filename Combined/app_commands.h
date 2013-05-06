@@ -15,9 +15,9 @@
 float strToFloat(char *arg);
 
 extern int CMD_help(int argc, char **argv);
-extern int CMD_set_Kp_LVDT(int argc, char **argv);
-extern int CMD_set_Ki_LVDT(int argc, char **argv);
-extern int CMD_set_Kd_LVDT(int argc, char **argv);
-extern int CMD_set_trajectory(int argc, char **argv);
+extern int CMD_setKpLVDT(int argc, char **argv);
+extern int CMD_setKiLVDT(int argc, char **argv);
+extern int CMD_setKdLVDT(int argc, char **argv);
+extern int CMD_setTrajectory(int argc, char **argv);
 
 #endif /* APP_COMMANDS_H_ */

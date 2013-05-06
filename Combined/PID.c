@@ -57,7 +57,7 @@ void LVDTPIDInit(void) {
 	LVDTController.sumError = &sumError;
 	LVDTController.maxSumError = &maxSumError;
 
-	maxSumError = MAX_IVALUE / (*LVDTController.Ki + 1);
+	maxSumError = MAX_IVALUE / (7.69/100000 + 1);
 
 	//Enable the Timer 2 interrupt so that the PID code triggers off
 	//of the PWM timer.
