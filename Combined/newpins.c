@@ -54,7 +54,7 @@ PortFunctionInit(void)
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
-    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
+    //MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
     MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);

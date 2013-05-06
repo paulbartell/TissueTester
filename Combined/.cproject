@@ -45,6 +45,9 @@
 									<listOptionValue builtIn="false" value="&quot;C:\StellarisWare&quot;"/>
 								</option>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compilerID.LITTLE_ENDIAN.307993362" name="Little endian code (--little_endian, -me)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compilerID.LITTLE_ENDIAN" value="true" valueType="boolean"/>
+								<option id="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compilerID.DEFINE.949601300" superClass="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compilerID.DEFINE" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="UART_BUFFERED"/>
+								</option>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compiler.inputType__C_SRCS.992764433" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compiler.inputType__C_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compiler.inputType__CPP_SRCS.299235451" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compiler.inputType__CPP_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compiler.inputType__ASM_SRCS.1844984841" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_4.9.compiler.inputType__ASM_SRCS"/>

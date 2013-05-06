@@ -1,4 +1,4 @@
-#define UART_BUFFERED
+//#define UART_BUFFERED
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
 #include "inc/hw_ints.h"

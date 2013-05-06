@@ -22,7 +22,7 @@
 #include "utils/uartstdio.h"
 #include "PWMSetup.h"
 
-#define MAX_IVALUE 0.0001				//Arbitrarily set, needs testing.
+#define MAX_IVALUE 0.001				//Arbitrarily set, needs testing.
 
 extern long ulCurrent[1];				//Stores data read from ADC0 FIFO
 extern long ulLVDT[1];				    //Stores data read from ADC1 FIFO
@@ -31,9 +31,9 @@ extern unsigned long pwmPeriod;
 long LVDTPIDOutput[1] = {0};			//Output from the LVDT controller
 long yLast = 0;
 float sumError = 0.0;
-PID LVDTController;						//Pointer to the PID struct LVDTController
+PID LVDTController;						//PID struct LVDTController
 float Kp = 0.05;
-float Ki = 7.69/100000;
+float Ki = 0.0000769;
 float Kd = 0;
 float maxSumError = 0.0;
 
@@ -57,7 +57,7 @@ void LVDTPIDInit(void) {
 	LVDTController.sumError = &sumError;
 	LVDTController.maxSumError = &maxSumError;
 
-	maxSumError = MAX_IVALUE / (*LVDTController.Ki + 1);
+	maxSumError = MAX_IVALUE / (0.0000769 + 1);
 
 	//Enable the Timer 2 interrupt so that the PID code triggers off
 	//of the PWM timer.
@@ -76,9 +76,6 @@ interrupt void PIDIntHandlerLVDT(void) {
 	float error = 0.0;
 	float DCoffset = 550;
 	float temp = 0.0;
-	//float Td = (*LVDTController.Kd)/(*LVDTController.Kp);
-	//int N = 15;
-	//float samplingTime = 1/7000;
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
 
@@ -89,10 +86,6 @@ interrupt void PIDIntHandlerLVDT(void) {
 	pValue = (*LVDTController.Kp)*error;
 
 	//Compute the D portion of the controller
-	/*
-	 * Complicated D term
-	 */
-	//dValue[1] = (Td/(Td+N*samplingTime))*dValue[0] -
 
 	/*
 	 * Non-complicated D term

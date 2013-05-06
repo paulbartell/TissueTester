@@ -1,6 +1,6 @@
 # FIXED
 
-uartstdio.obj: ../uartstdio.c
+uartstdio.obj: C:/StellarisWare/utils/uartstdio.c
 uartstdio.obj: C:/ti/ccsv5/tools/compiler/arm_4.9.7/include/stdarg.h
 uartstdio.obj: C:/StellarisWare/inc/hw_ints.h
 uartstdio.obj: C:/StellarisWare/inc/hw_memmap.h
@@ -14,7 +14,7 @@ uartstdio.obj: C:/StellarisWare/driverlib/sysctl.h
 uartstdio.obj: C:/StellarisWare/driverlib/uart.h
 uartstdio.obj: C:/StellarisWare/utils/uartstdio.h
 
-../uartstdio.c: 
+C:/StellarisWare/utils/uartstdio.c: 
 C:/ti/ccsv5/tools/compiler/arm_4.9.7/include/stdarg.h: 
 C:/StellarisWare/inc/hw_ints.h: 
 C:/StellarisWare/inc/hw_memmap.h: 

@@ -13,7 +13,7 @@ C_SRCS += \
 ../main.c \
 ../newpins.c \
 ../startup_ccs.c \
-../uartstdio.c 
+C:/StellarisWare/utils/uartstdio.c 
 
 OBJS += \
 ./ADCSetup.obj \
@@ -58,6 +58,6 @@ C_SRCS__QUOTED += \
 "../main.c" \
 "../newpins.c" \
 "../startup_ccs.c" \
-"../uartstdio.c" 
+"C:/StellarisWare/utils/uartstdio.c" 
 
 
