@@ -17,16 +17,17 @@
 #include "PWMSetup.h"
 #include "PID.h"
 #include "driverlib/rom.h"
-#include "usblib/usblib.h"
+//#include "usb_dev_bulk.h"
+
+//#include "usblib/device/usbdevicepriv.h"
+
+//#include "usb_bulk_structs.h"
+//#include "usblib/usblib.h"
 //#include "usblib/device/usbdhandler.c"
 //#include "usblib/usb-ids.h"
 //#include "usblib/device/usbdevice.h"
 //#include "usblib/device/usbdbulk.h"
 
-//SYSTICK stuff
-#define SYSTICKS_PER_SECOND     100
-#define SYSTICK_PERIOD_MS       (1000 / SYSTICKS_PER_SECOND)
-volatile unsigned long g_ulSysTickCount = 0;
 
 //Global variables
 long ulCurrent[1] = {0};				//Stores data read from ADC0 FIFO
@@ -53,31 +54,26 @@ int main(void) {
 	//Set system clock to 80 MHz
 	ROM_SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
 
-    ROM_SysTickPeriodSet(ROM_SysCtlClockGet() / SYSTICKS_PER_SECOND);
-    ROM_SysTickIntEnable();
-    ROM_SysTickEnable();
-
 	//Enable console communication with UART0
 	UARTStdioInit(0);
-	UARTprintf("test1");
-	//UsbInit();
-
+	UARTprintf("0UART\n");
+	UsbMain();
+	UARTprintf("1USB\n");
 
 
     pwmSetup();
-	UARTprintf("test2");
+	UARTprintf("2PWM\n");
 
     //pwmSetDuty(0);
 
 	ADCSetup();
-	UARTprintf("test3");
+	UARTprintf("3ADC\n");
 
 	LVDTPIDInit();
-	UARTprintf("test4");
+	UARTprintf("4PID\n");
 
 	while(1) {
-		UARTprintf("iter");
-		SysCtlDelay(SysCtlClockGet() / (100*3));
+		//SysCtlDelay(SysCtlClockGet() / (100*3));
 
 		if (UARTPeek('\r') != -1) {
 			UARTgets(str,6);
@@ -97,7 +93,6 @@ int main(void) {
 				count = 0;
 				//pwmSetDuty(dutynumber);
 				setPoint = dutynumber;
-				//setPoint = 3000;
 				UARTprintf("duty set to %d\n", dutynumber);
 			}else if(str[0] == 0){
 				UARTprintf("C: %u ", ulCurrent[0]);

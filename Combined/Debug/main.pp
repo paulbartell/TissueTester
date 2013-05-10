@@ -18,7 +18,6 @@ main.obj: ../ADCSetup.h
 main.obj: ../PWMSetup.h
 main.obj: ../PID.h
 main.obj: C:/StellarisWare/driverlib/rom.h
-main.obj: C:/StellarisWare/usblib/usblib.h
 
 ../main.c: 
 C:/StellarisWare/inc/hw_memmap.h: 
@@ -38,4 +37,3 @@ C:/StellarisWare/inc/hw_uart.h:
 ../PWMSetup.h: 
 ../PID.h: 
 C:/StellarisWare/driverlib/rom.h: 
-C:/StellarisWare/usblib/usblib.h: 

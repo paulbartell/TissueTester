@@ -6,7 +6,6 @@
 // TI Information - Selective Disclosure
 //
 //*****************************************************************************
-
 //*****************************************************************************
 //
 // Forward declaration of the default fault handlers.
@@ -109,7 +108,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // CAN2
     IntDefaultHandler,                      // Ethernet
     IntDefaultHandler,                      	// Hibernate
-    0,                      // USB0
+    USB0DeviceIntHandler,                      // USB0
     IntDefaultHandler,                      // PWM Generator 3
     IntDefaultHandler,                      // uDMA Software Transfer
     IntDefaultHandler,                      // uDMA Error
@@ -240,6 +239,7 @@ NmiSR(void)
     //
     // Enter an infinite loop.
     //
+	UARTprintf("NmiSR");
     while(1)
     {
     }
@@ -258,9 +258,10 @@ FaultISR(void)
     //
     // Enter an infinite loop.
     //
-    while(1)
-    {
-    }
+	UARTprintf("faultiSR");
+    //while(1)
+    //{
+    //}
 }
 
 //*****************************************************************************
@@ -276,6 +277,7 @@ IntDefaultHandler(void)
     //
     // Go into an infinite loop.
     //
+	UARTprintf("DefaultiSR");
     while(1)
     {
     }
