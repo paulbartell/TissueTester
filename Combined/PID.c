@@ -8,6 +8,7 @@
  *
  */
 
+#include <math.h>
 #include "PID.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -25,6 +26,8 @@
 #define MAX_IVALUE 1024				//Arbitrarily set, needs testing.
 #define ACTUALKI 3.0/100000
 #define UMAX 1024.0
+#define PIDFREQ 8000
+#define PI 3.14159
 
 extern long ulCurrent[1];				//Stores data read from ADC0 FIFO
 extern long ulLVDT[1];				    //Stores data read from ADC1 FIFO
@@ -38,8 +41,9 @@ float Kp = 0.075;
 float Ki = ACTUALKI;//3.0/100000; // 7.69/100000
 float Kd = 0;
 float maxSumError = 0.0;
+unsigned long t = 0;
 
-unsigned long round(float num){
+unsigned long roundNum(float num){
 	if (num > (long)num){
 		return (long)num + 1;
 	}else{
@@ -80,7 +84,8 @@ interrupt void PIDIntHandlerLVDT(void) {
 	float temp = 0.0;
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-
+	*LVDTController.y = sin(2*PI*t/PIDFREQ);
+	t++;
 	//Compute the error
 	error = *LVDTController.x - *LVDTController.y;
 
@@ -120,6 +125,6 @@ interrupt void PIDIntHandlerLVDT(void) {
 	} else if (*LVDTController.u < -(UMAX)){
 		pwmSetDuty(-(UMAX));
 	}else{
-		pwmSetDuty(round(*LVDTController.u));
+		pwmSetDuty(roundNum(*LVDTController.u));
 	}
 }

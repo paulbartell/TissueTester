@@ -161,4 +161,33 @@ PortFunctionInit(void)
 
     MAP_GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_6|GPIO_PIN_7);
 
+    //
+    // Enable Peripheral Clocks
+    //
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_SSI0);
+    MAP_SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
+
+    //
+    // Enable port PA4 for SSI0 SSI0RX
+    //
+    MAP_GPIOPinConfigure(GPIO_PA4_SSI0RX);
+    MAP_GPIOPinTypeSSI(GPIO_PORTA_BASE, GPIO_PIN_4);
+
+    //
+    // Enable port PA2 for SSI0 SSI0CLK
+    //
+    MAP_GPIOPinConfigure(GPIO_PA2_SSI0CLK);
+    MAP_GPIOPinTypeSSI(GPIO_PORTA_BASE, GPIO_PIN_2);
+
+    //
+    // Enable port PA3 for SSI0 SSI0FSS
+    //
+    MAP_GPIOPinConfigure(GPIO_PA3_SSI0FSS);
+    MAP_GPIOPinTypeSSI(GPIO_PORTA_BASE, GPIO_PIN_3);
+
+    //
+    // Enable port PA5 for SSI0 SSI0TX
+    //
+    MAP_GPIOPinConfigure(GPIO_PA5_SSI0TX);
+    MAP_GPIOPinTypeSSI(GPIO_PORTA_BASE, GPIO_PIN_5);
 }

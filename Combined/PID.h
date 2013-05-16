@@ -27,7 +27,7 @@ void LVDTPIDInit(void);
 
 interrupt void PIDIntHandlerLVDT(void);
 
-unsigned long round(float num);
+unsigned long roundNum(float num);
 
  
  #endif // __PID_H__

@@ -20,6 +20,7 @@
 //Global variables
 long ulCurrent[1] = {0};				//Stores data read from ADC0 FIFO
 long ulLVDT[1] = {0};				    //Stores data read from ADC1 FIFO
+long Accel = 0;						//Stores data read from accelerometer
 unsigned long dutyCycle = 0;					//Duty cycle for the PWM
 unsigned long pwmPeriod = 0;					//Period for the PWM
 long setPoint = 0;

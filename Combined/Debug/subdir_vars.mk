@@ -10,6 +10,7 @@ C_SRCS += \
 ../ADCSetup.c \
 ../PID.c \
 ../PWMSetup.c \
+../accel.c \
 ../main.c \
 ../newpins.c \
 ../startup_ccs.c \
@@ -19,6 +20,7 @@ OBJS += \
 ./ADCSetup.obj \
 ./PID.obj \
 ./PWMSetup.obj \
+./accel.obj \
 ./main.obj \
 ./newpins.obj \
 ./startup_ccs.obj \
@@ -28,6 +30,7 @@ C_DEPS += \
 ./ADCSetup.pp \
 ./PID.pp \
 ./PWMSetup.pp \
+./accel.pp \
 ./main.pp \
 ./newpins.pp \
 ./startup_ccs.pp \
@@ -37,6 +40,7 @@ C_DEPS__QUOTED += \
 "ADCSetup.pp" \
 "PID.pp" \
 "PWMSetup.pp" \
+"accel.pp" \
 "main.pp" \
 "newpins.pp" \
 "startup_ccs.pp" \
@@ -46,6 +50,7 @@ OBJS__QUOTED += \
 "ADCSetup.obj" \
 "PID.obj" \
 "PWMSetup.obj" \
+"accel.obj" \
 "main.obj" \
 "newpins.obj" \
 "startup_ccs.obj" \
@@ -55,6 +60,7 @@ C_SRCS__QUOTED += \
 "../ADCSetup.c" \
 "../PID.c" \
 "../PWMSetup.c" \
+"../accel.c" \
 "../main.c" \
 "../newpins.c" \
 "../startup_ccs.c" \
