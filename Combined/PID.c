@@ -12,7 +12,6 @@
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
 #include "inc/hw_ints.h"
-#include "inc/hw_memmap.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/timer.h"
 #include "driverlib/sysctl.h"
@@ -62,7 +61,7 @@ void LVDTPIDInit(void) {
 	//Enable the Timer 2 interrupt so that the PID code triggers off
 	//of the PWM timer.
 	TimerLoadSet(TIMER2_BASE, TIMER_A, pwmPeriod*10);
-	IntEnable(INT_TIMER2A);
+	//IntEnable(INT_TIMER2A);
 	IntPrioritySet(INT_TIMER2A, 0x00);
 	TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
 	IntMasterEnable();
