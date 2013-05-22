@@ -11,6 +11,7 @@ C_SRCS += \
 ../PID.c \
 ../PWMSetup.c \
 ../accel.c \
+../app_commands.c \
 ../main.c \
 ../newpins.c \
 ../startup_ccs.c \
@@ -21,6 +22,7 @@ OBJS += \
 ./PID.obj \
 ./PWMSetup.obj \
 ./accel.obj \
+./app_commands.obj \
 ./main.obj \
 ./newpins.obj \
 ./startup_ccs.obj \
@@ -31,6 +33,7 @@ C_DEPS += \
 ./PID.pp \
 ./PWMSetup.pp \
 ./accel.pp \
+./app_commands.pp \
 ./main.pp \
 ./newpins.pp \
 ./startup_ccs.pp \
@@ -41,6 +44,7 @@ C_DEPS__QUOTED += \
 "PID.pp" \
 "PWMSetup.pp" \
 "accel.pp" \
+"app_commands.pp" \
 "main.pp" \
 "newpins.pp" \
 "startup_ccs.pp" \
@@ -51,6 +55,7 @@ OBJS__QUOTED += \
 "PID.obj" \
 "PWMSetup.obj" \
 "accel.obj" \
+"app_commands.obj" \
 "main.obj" \
 "newpins.obj" \
 "startup_ccs.obj" \
@@ -61,6 +66,7 @@ C_SRCS__QUOTED += \
 "../PID.c" \
 "../PWMSetup.c" \
 "../accel.c" \
+"../app_commands.c" \
 "../main.c" \
 "../newpins.c" \
 "../startup_ccs.c" \
