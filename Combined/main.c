@@ -1,9 +1,8 @@
-//#define UART_BUFFERED
-#include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
-#include "inc/hw_ints.h"
-#include "inc/hw_uart.h"
 #include "inc/hw_memmap.h"
+#include "inc/hw_ints.h"
+#include "inc/hw_memmap.h"
+#include "inc/hw_uart.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/timer.h"
 #include "driverlib/sysctl.h"
@@ -11,9 +10,9 @@
 #include "driverlib/gpio.h"
 #include "driverlib/pin_map.h"
 #include "driverlib/rom.h"
-#include "newpins.h"
 #include "utils/uartstdio.h"
 #include "utils/cmdline.h"
+#include "newpins.h"
 #include "driverlib/uart.h"
 #include "ADCSetup.h"
 #include "PWMSetup.h"
@@ -33,8 +32,8 @@ extern PID LVDTController;
 
 
 int main(void) {
-	int count = 0;			//Counter for input loop
-	signed long dutynumber = 0;
+	// int count = 0;			//Counter for input loop
+	// signed long dutynumber = 0;
 	long lCommandStatus;
 
 	//Set system clock to 80 MHz
