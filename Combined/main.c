@@ -60,7 +60,7 @@ int main(void) {
 	SysCtlDelay(SysCtlClockGet() / (1000/3));
 
     IntMasterEnable();
-	setPoint = 1000;
+//	setPoint = 1000;
 
 	while(1) {
 			UARTprintf("\n>");

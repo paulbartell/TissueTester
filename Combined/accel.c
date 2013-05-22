@@ -26,9 +26,9 @@ void accelInit(){
 
 	// Initialize accelerometer module on SSI0 using SPI interface
 
-    while(SSIDataGetNonBlocking(SSI0_BASE, &ulDataRx[0]))
-    {
-    }
+//	while(SSIDataGetNonBlocking(SSI0_BASE, &ulDataRx[0]))
+//	{
+//	}
 
     ulDataTx[0] = 0x00;
 
