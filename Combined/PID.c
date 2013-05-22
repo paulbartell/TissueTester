@@ -8,7 +8,6 @@
  *
  */
 
-#include <math.h>
 #include "PID.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -21,6 +20,7 @@
 #include "driverlib/pin_map.h"
 #include "newpins.h"
 #include "utils/uartstdio.h"
+#include "utils/sine.h"
 #include "PWMSetup.h"
 
 #define MAX_IVALUE 1024				//Arbitrarily set, needs testing.
@@ -84,7 +84,7 @@ interrupt void PIDIntHandlerLVDT(void) {
 	float temp = 0.0;
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-	*LVDTController.y = sin(2*PI*t/PIDFREQ);
+	*LVDTController.y = sin((2*PI*t)*(180/PI)/PIDFREQ);
 	t++;
 	//Compute the error
 	error = *LVDTController.x - *LVDTController.y;
