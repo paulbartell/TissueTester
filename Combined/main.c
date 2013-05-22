@@ -17,16 +17,19 @@
 #include "PWMSetup.h"
 #include "PID.h"
 
+#define PIDFREQ 7825
+#define PI 3.14159
+
 //Global variables
 long ulCurrent[1] = {0};				//Stores data read from ADC0 FIFO
 long ulLVDT[1] = {0};				    //Stores data read from ADC1 FIFO
-long Accel = 0;						//Stores data read from accelerometer
+long Accel[3] = {0,0,0};						//Stores data read from accelerometer
 unsigned long dutyCycle = 0;					//Duty cycle for the PWM
 unsigned long pwmPeriod = 0;					//Period for the PWM
 long setPoint = 0;
 char str [5];
 extern PID LVDTController;
-
+unsigned long t = 0;
 
 
 int main(void) {
@@ -53,6 +56,14 @@ int main(void) {
 	setPoint = 1000;
 
 	while(1) {
+		//setPoint = 2048*sin(2*PI*t/50000) + 2048;
+//		if(t%4096 <2048){
+//			setPoint ++;
+//		}else{
+//			setPoint--;
+//		}
+//
+//		t++;
 		SysCtlDelay(SysCtlClockGet() / (100*3));
 
 		if (UARTPeek('\r') != -1) {

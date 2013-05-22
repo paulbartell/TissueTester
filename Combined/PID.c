@@ -8,7 +8,6 @@
  *
  */
 
-#include <math.h>
 #include "PID.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -21,12 +20,13 @@
 #include "driverlib/pin_map.h"
 #include "newpins.h"
 #include "utils/uartstdio.h"
+#include "utils/sine.h"
 #include "PWMSetup.h"
 
 #define MAX_IVALUE 1024				//Arbitrarily set, needs testing.
 #define ACTUALKI 3.0/100000
 #define UMAX 1024.0
-#define PIDFREQ 8000
+#define PIDFREQ 7825
 #define PI 3.14159
 
 extern long ulCurrent[1];				//Stores data read from ADC0 FIFO
@@ -37,11 +37,11 @@ long LVDTPIDOutput[1] = {0};			//Output from the LVDT controller
 long yLast = 0;
 float sumError = 0.0;
 PID LVDTController;						//PID struct LVDTController
-float Kp = 0.075;
-float Ki = ACTUALKI;//3.0/100000; // 7.69/100000
-float Kd = 0;
+float Kp = 0.08;//0.075;
+float Ki = .000167;//3.0/100000; // 7.69/100000
+float Kd = 0.0014;
 float maxSumError = 0.0;
-unsigned long t = 0;
+
 
 unsigned long roundNum(float num){
 	if (num > (long)num){
@@ -78,14 +78,13 @@ void LVDTPIDInit(void) {
 interrupt void PIDIntHandlerLVDT(void) {
 	float pValue = 0.0;
 	float dValue = 0.0;
-	float iValue = 560.0;
+	float iValue = 0.0;
 	float error = 0.0;
-	float DCoffset = 0.0;
+	float DCoffset = 500;
 	float temp = 0.0;
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-	*LVDTController.y = sin(2*PI*t/PIDFREQ);
-	t++;
+
 	//Compute the error
 	error = *LVDTController.x - *LVDTController.y;
 

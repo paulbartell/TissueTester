@@ -1,7 +1,7 @@
 ******************************************************************************
                   TMS470 Linker PC v4.9.7                      
 ******************************************************************************
->> Linked Wed May 15 12:13:39 2013
+>> Linked Tue May 21 15:56:59 2013
 
 OUTPUT FILE NAME:   <Combined.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00001bc1
@@ -12,7 +12,7 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
   FLASH                 00000000   00040000  000022ba  0003dd46  R  X
-  SRAM                  20000000   00008000  00000610  000079f0  RW X
+  SRAM                  20000000   00008000  00000620  000079e0  RW X
 
 
 SEGMENT ALLOCATION MAP
@@ -27,8 +27,8 @@ run origin  load origin   length   init length attrs members
 20000000    20000000    000005b4   00000000    rw-
   20000000    20000000    000004b4   00000000    rw- .bss
   200004b4    200004b4    00000100   00000000    rw- .stack
-200005b4    200005b4    0000005c   0000005c    rw-
-  200005b4    200005b4    0000005c   0000005c    rw- .data
+200005b4    200005b4    0000006c   0000006c    rw-
+  200005b4    200005b4    0000006c   0000006c    rw- .data
 
 
 SECTION ALLOCATION MAP
@@ -53,7 +53,7 @@ section   page    origin      length       input sections
                   000016d0    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.obj (.text)
                   0000176c    00000094                                   : auto_init.obj (.text)
                   00001800    0000007e                                   : fd_cmp_t2.obj (.text)
-                  0000187e    00000002     --HOLE-- [fill = 0]
+                  0000187e    00000002     accel.obj (.text:retain)
                   00001880    00000078     driverlib-cm4f.lib : sysctl.obj (.text:SysCtlPeripheralPresent)
                   000018f8    0000006c                        : adc.obj (.text:ADCSequenceStepConfigure)
                   00001964    00000064                        : interrupt.obj (.text:IntDisable)
@@ -126,10 +126,9 @@ section   page    origin      length       input sections
                   00002260    00000012     uartstdio.obj (.const:.string)
 
 .cinit     0    00002278    00000048     
-                  00002278    0000001d     (.cinit..data.load) [load image, compression = rle]
-                  00002295    00000003     --HOLE-- [fill = 0]
-                  00002298    0000000c     (__TI_handler_table)
-                  000022a4    00000004     --HOLE-- [fill = 0]
+                  00002278    00000021     (.cinit..data.load) [load image, compression = rle]
+                  00002299    00000003     --HOLE-- [fill = 0]
+                  0000229c    0000000c     (__TI_handler_table)
                   000022a8    00000008     (.cinit..bss.load) [load image, compression = zero_init]
                   000022b0    00000010     (__TI_cinit_table)
 
@@ -143,26 +142,26 @@ section   page    origin      length       input sections
 .stack     0    200004b4    00000100     UNINITIALIZED
                   200004b4    00000100     --HOLE--
 
-.data      0    200005b4    0000005c     
-                  200005b4    0000001c     PID.obj (.data)
-                  200005d0    00000015     uartstdio.obj (.data)
-                  200005e5    00000003     --HOLE--
-                  200005e8    00000014     main.obj (.data)
-                  200005fc    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : _lock.obj (.data)
-                  20000604    00000008                                   : exit.obj (.data)
-                  2000060c    00000004                                   : stkdepth_vars.obj (.data)
+.data      0    200005b4    0000006c     
+                  200005b4    00000024     main.obj (.data)
+                  200005d8    0000001c     PID.obj (.data)
+                  200005f4    00000015     uartstdio.obj (.data)
+                  20000609    00000003     --HOLE--
+                  2000060c    00000008     rtsv7M4_T_le_v4SPD16_eabi.lib : _lock.obj (.data)
+                  20000614    00000008                                   : exit.obj (.data)
+                  2000061c    00000004                                   : stkdepth_vars.obj (.data)
 
 
 LINKER GENERATED COPY TABLES
 
 __TI_cinit_table @ 000022b0 records: 2, size/record: 8, table size: 16
-	.data: load addr=00002278, load size=0000001d bytes, run addr=200005b4, run size=0000005c bytes, compression=rle
+	.data: load addr=00002278, load size=00000021 bytes, run addr=200005b4, run size=0000006c bytes, compression=rle
 	.bss: load addr=000022a8, load size=00000008 bytes, run addr=20000000, run size=000004b4 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00002298 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 0000229c records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_rle24
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -183,6 +182,7 @@ address    name
 00001f3d   ADCSequenceEnable
 000018f9   ADCSequenceStepConfigure
 000012e5   ADCSetup
+200005bc   Accel
 00001c09   C$$EXIT
 00001f67   CPUcpsid
 00001f73   CPUcpsie
@@ -200,12 +200,12 @@ address    name
 00001fb7   IntMasterDisable
 00001fc1   IntMasterEnable
 00001d81   IntPrioritySet
-200005c8   Kd
-200005c4   Ki
-200005c0   Kp
+200005ec   Kd
+200005e8   Ki
+200005e4   Kp
 20000480   LVDTController
 00001463   LVDTPIDInit
-200005b4   LVDTPIDOutput
+200005d8   LVDTPIDOutput
 00000ab5   PIDIntHandlerLVDT
 00000e99   PortFunctionInit
 00001f97   ResetISR
@@ -255,8 +255,8 @@ UNDEFED    SHT$$INIT_ARRAY$$Limit
 200005b4   __STACK_TOP
 000022b0   __TI_CINIT_Base
 000022c0   __TI_CINIT_Limit
-00002298   __TI_Handler_Table_Base
-000022a4   __TI_Handler_Table_Limit
+0000229c   __TI_Handler_Table_Base
+000022a8   __TI_Handler_Table_Limit
 00000001   __TI_args_main
 0000176d   __TI_auto_init
 00001f59   __TI_decompress_none
@@ -275,33 +275,35 @@ ffffffff   __c_args__
 200004b4   __stack
 00001e31   _args_main
 00001bc1   _c_int00
-20000604   _cleanup_ptr
-20000608   _dtors_ptr
-200005fc   _lock
+20000614   _cleanup_ptr
+20000618   _dtors_ptr
+2000060c   _lock
 00001e25   _nop
 00001e1f   _register_lock
 00001e19   _register_unlock
-20000600   _unlock
+20000610   _unlock
 00001c0d   abort
+0000187f   accelInt
 ffffffff   binit
 00001ae5   copy_in
-200005f0   dutyCycle
+200005c8   dutyCycle
 00001c15   exit
 00000000   g_pfnVectors
 0000103d   main
-2000060c   main_func_sp
-200005cc   maxSumError
+2000061c   main_func_sp
+200005f0   maxSumError
 000016d1   memcpy
-200005f4   pwmPeriod
+200005cc   pwmPeriod
 00001567   pwmSetDuty
 0000152d   pwmSetup
-00001419   round
-200005f8   setPoint
+00001419   roundNum
+200005d0   setPoint
 200004a4   str
-200005bc   sumError
-200005e8   ulCurrent
-200005ec   ulLVDT
-200005b8   yLast
+200005e0   sumError
+200005d4   t
+200005b4   ulCurrent
+200005b8   ulLVDT
+200005dc   yLast
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -332,7 +334,7 @@ address    name
 0000103d   main
 000011a9   SysCtlClockSet
 000012e5   ADCSetup
-00001419   round
+00001419   roundNum
 00001463   LVDTPIDInit
 0000152d   pwmSetup
 00001567   pwmSetDuty
@@ -344,6 +346,7 @@ address    name
 0000176d   __TI_auto_init
 00001801   __aeabi_cdcmpeq
 00001801   __aeabi_cdcmple
+0000187f   accelInt
 00001881   SysCtlPeripheralPresent
 000018f9   ADCSequenceStepConfigure
 00001965   IntDisable
@@ -407,36 +410,38 @@ address    name
 00001ffb   __TI_decompress_rle24
 00002001   TimerIntClear
 00002005   UARTIntClear
-00002298   __TI_Handler_Table_Base
-000022a4   __TI_Handler_Table_Limit
+0000229c   __TI_Handler_Table_Base
+000022a8   __TI_Handler_Table_Limit
 000022b0   __TI_CINIT_Base
 000022c0   __TI_CINIT_Limit
 20000480   LVDTController
 200004a4   str
 200004b4   __stack
-200005b4   LVDTPIDOutput
 200005b4   __STACK_END
 200005b4   __STACK_TOP
-200005b8   yLast
-200005bc   sumError
-200005c0   Kp
-200005c4   Ki
-200005c8   Kd
-200005cc   maxSumError
-200005e8   ulCurrent
-200005ec   ulLVDT
-200005f0   dutyCycle
-200005f4   pwmPeriod
-200005f8   setPoint
-200005fc   _lock
-20000600   _unlock
-20000604   _cleanup_ptr
-20000608   _dtors_ptr
-2000060c   main_func_sp
+200005b4   ulCurrent
+200005b8   ulLVDT
+200005bc   Accel
+200005c8   dutyCycle
+200005cc   pwmPeriod
+200005d0   setPoint
+200005d4   t
+200005d8   LVDTPIDOutput
+200005dc   yLast
+200005e0   sumError
+200005e4   Kp
+200005e8   Ki
+200005ec   Kd
+200005f0   maxSumError
+2000060c   _lock
+20000610   _unlock
+20000614   _cleanup_ptr
+20000618   _dtors_ptr
+2000061c   main_func_sp
 ffffffff   __binit__
 ffffffff   __c_args__
 ffffffff   binit
 UNDEFED    SHT$$INIT_ARRAY$$Base
 UNDEFED    SHT$$INIT_ARRAY$$Limit
 
-[130 symbols]
+[133 symbols]
