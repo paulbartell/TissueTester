@@ -11,59 +11,71 @@ C_SRCS += \
 ../PID.c \
 ../PWMSetup.c \
 ../accel.c \
+../cmdline.c \
 ../main.c \
 ../newpins.c \
 ../startup_ccs.c \
-C:/StellarisWare/utils/uartstdio.c 
+C:/StellarisWare/utils/uartstdio.c \
+../ustdlib.c 
 
 OBJS += \
 ./ADCSetup.obj \
 ./PID.obj \
 ./PWMSetup.obj \
 ./accel.obj \
+./cmdline.obj \
 ./main.obj \
 ./newpins.obj \
 ./startup_ccs.obj \
-./uartstdio.obj 
+./uartstdio.obj \
+./ustdlib.obj 
 
 C_DEPS += \
 ./ADCSetup.pp \
 ./PID.pp \
 ./PWMSetup.pp \
 ./accel.pp \
+./cmdline.pp \
 ./main.pp \
 ./newpins.pp \
 ./startup_ccs.pp \
-./uartstdio.pp 
+./uartstdio.pp \
+./ustdlib.pp 
 
 C_DEPS__QUOTED += \
 "ADCSetup.pp" \
 "PID.pp" \
 "PWMSetup.pp" \
 "accel.pp" \
+"cmdline.pp" \
 "main.pp" \
 "newpins.pp" \
 "startup_ccs.pp" \
-"uartstdio.pp" 
+"uartstdio.pp" \
+"ustdlib.pp" 
 
 OBJS__QUOTED += \
 "ADCSetup.obj" \
 "PID.obj" \
 "PWMSetup.obj" \
 "accel.obj" \
+"cmdline.obj" \
 "main.obj" \
 "newpins.obj" \
 "startup_ccs.obj" \
-"uartstdio.obj" 
+"uartstdio.obj" \
+"ustdlib.obj" 
 
 C_SRCS__QUOTED += \
 "../ADCSetup.c" \
 "../PID.c" \
 "../PWMSetup.c" \
 "../accel.c" \
+"../cmdline.c" \
 "../main.c" \
 "../newpins.c" \
 "../startup_ccs.c" \
-"C:/StellarisWare/utils/uartstdio.c" 
+"C:/StellarisWare/utils/uartstdio.c" \
+"../ustdlib.c" 
 
 
