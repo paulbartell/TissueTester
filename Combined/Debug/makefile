@@ -11,6 +11,7 @@ $(GEN_CMDS__FLAG) \
 "./ustdlib.obj" \
 "./uartstdio.obj" \
 "./startup_ccs.obj" \
+"./sine.obj" \
 "./newpins.obj" \
 "./main.obj" \
 "./cmdline.obj" \
@@ -133,8 +134,8 @@ Combined.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(TMS470_EXECUTABLE_OUTPUTS__QUOTED) "Combined.out"
-	-$(RM) "ADCSetup.pp" "PID.pp" "PWMSetup.pp" "accel.pp" "app_commands.pp" "cmdline.pp" "main.pp" "newpins.pp" "startup_ccs.pp" "uartstdio.pp" "ustdlib.pp" 
-	-$(RM) "ADCSetup.obj" "PID.obj" "PWMSetup.obj" "accel.obj" "app_commands.obj" "cmdline.obj" "main.obj" "newpins.obj" "startup_ccs.obj" "uartstdio.obj" "ustdlib.obj" 
+	-$(RM) "ADCSetup.pp" "PID.pp" "PWMSetup.pp" "accel.pp" "app_commands.pp" "cmdline.pp" "main.pp" "newpins.pp" "sine.pp" "startup_ccs.pp" "uartstdio.pp" "ustdlib.pp" 
+	-$(RM) "ADCSetup.obj" "PID.obj" "PWMSetup.obj" "accel.obj" "app_commands.obj" "cmdline.obj" "main.obj" "newpins.obj" "sine.obj" "startup_ccs.obj" "uartstdio.obj" "ustdlib.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

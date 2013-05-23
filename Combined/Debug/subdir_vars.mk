@@ -15,6 +15,7 @@ C_SRCS += \
 ../cmdline.c \
 ../main.c \
 ../newpins.c \
+../sine.c \
 ../startup_ccs.c \
 C:/StellarisWare/utils/uartstdio.c \
 ../ustdlib.c 
@@ -28,6 +29,7 @@ OBJS += \
 ./cmdline.obj \
 ./main.obj \
 ./newpins.obj \
+./sine.obj \
 ./startup_ccs.obj \
 ./uartstdio.obj \
 ./ustdlib.obj 
@@ -41,6 +43,7 @@ C_DEPS += \
 ./cmdline.pp \
 ./main.pp \
 ./newpins.pp \
+./sine.pp \
 ./startup_ccs.pp \
 ./uartstdio.pp \
 ./ustdlib.pp 
@@ -54,6 +57,7 @@ C_DEPS__QUOTED += \
 "cmdline.pp" \
 "main.pp" \
 "newpins.pp" \
+"sine.pp" \
 "startup_ccs.pp" \
 "uartstdio.pp" \
 "ustdlib.pp" 
@@ -67,6 +71,7 @@ OBJS__QUOTED += \
 "cmdline.obj" \
 "main.obj" \
 "newpins.obj" \
+"sine.obj" \
 "startup_ccs.obj" \
 "uartstdio.obj" \
 "ustdlib.obj" 
@@ -80,6 +85,7 @@ C_SRCS__QUOTED += \
 "../cmdline.c" \
 "../main.c" \
 "../newpins.c" \
+"../sine.c" \
 "../startup_ccs.c" \
 "C:/StellarisWare/utils/uartstdio.c" \
 "../ustdlib.c" 

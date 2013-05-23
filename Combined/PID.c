@@ -8,6 +8,7 @@
  *
  */
 
+#include <math.h>
 #include "PID.h"
 #include "inc/hw_memmap.h"
 #include "inc/hw_types.h"
@@ -37,7 +38,7 @@ long LVDTPIDOutput[1] = {0};			//Output from the LVDT controller
 long yLast = 0;
 float sumError = 0.0;
 PID LVDTController;						//PID struct LVDTController
-float Kp = 0.075;
+float Kp = 0.1;
 float Ki = ACTUALKI;//3.0/100000; // 7.69/100000
 float Kd = 0;
 float maxSumError = 0.0;
@@ -84,7 +85,7 @@ interrupt void PIDIntHandlerLVDT(void) {
 	float temp = 0.0;
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-	*LVDTController.y = sin((2*PI*t)*(180/PI)/PIDFREQ);
+	*LVDTController.x = 1096 * (sin((2*PI*t)*10/PIDFREQ) + 1) + 1096;
 	t++;
 	//Compute the error
 	error = *LVDTController.x - *LVDTController.y;

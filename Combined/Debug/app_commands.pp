@@ -10,6 +10,7 @@ app_commands.obj: C:/StellarisWare/utils/uartstdio.h
 app_commands.obj: C:/StellarisWare/utils/cmdline.h
 app_commands.obj: ../app_commands.h
 app_commands.obj: ../PID.h
+app_commands.obj: ../PWMSetup.h
 
 ../app_commands.c: 
 C:/StellarisWare/inc/hw_types.h: 
@@ -21,3 +22,4 @@ C:/StellarisWare/utils/uartstdio.h:
 C:/StellarisWare/utils/cmdline.h: 
 ../app_commands.h: 
 ../PID.h: 
+../PWMSetup.h: 

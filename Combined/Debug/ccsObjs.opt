@@ -1,1 +1,1 @@
-"./ustdlib.obj" "./uartstdio.obj" "./startup_ccs.obj" "./newpins.obj" "./main.obj" "./cmdline.obj" "./app_commands.obj" "./accel.obj" "./PWMSetup.obj" "./PID.obj" "./ADCSetup.obj" -l"libc.a" -l"C:\StellarisWare\driverlib\ccs-cm4f\Debug\driverlib-cm4f.lib" "../lm4f120h5qr.cmd" 
+"./ustdlib.obj" "./uartstdio.obj" "./startup_ccs.obj" "./sine.obj" "./newpins.obj" "./main.obj" "./cmdline.obj" "./app_commands.obj" "./accel.obj" "./PWMSetup.obj" "./PID.obj" "./ADCSetup.obj" -l"libc.a" -l"C:\StellarisWare\driverlib\ccs-cm4f\Debug\driverlib-cm4f.lib" "../lm4f120h5qr.cmd" 

@@ -13,6 +13,7 @@
 #include "utils/cmdline.h"
 #include "app_commands.h"
 #include "PID.h"
+#include "PWMSetup.h"
 
 #define BACKSPACE 8
 
@@ -24,6 +25,7 @@ tCmdLineEntry g_sCmdTable[] =
 		{"setTrajectory",	CMD_setTrajectory,	" : Set the trajectory"	},
 		{"start", CMD_start, " : Start the device"},
 		{"stop", CMD_stop, " : Stop the device"},
+		{"setDuty", CMD_setDuty, " : Set the duty cycle of the PWM" },
 		{ 0, 0, 0}
 };
 
@@ -138,6 +140,24 @@ int CMD_stop(int argc, char **argv) {
 	IntDisable(INT_TIMER2A);
 
 	return 0;
+}
+
+/*
+ * Command: setDuty
+ *
+ * Allows the user to set the duty cycle of the device with a single command.
+ */
+int CMD_setDuty(int argc, char **argv) {
+	long newDuty = 0;
+
+	if(argc == 2) {
+		newDuty = ustrtoul(argv[1],0,10);
+		if(newDuty < 0 || newDuty > 100) {
+			UARTprintf("Invalid duty value!\n");
+			return 0;
+		}
+		pwmSetDuty(newDuty);
+	}
 }
 
 /*
