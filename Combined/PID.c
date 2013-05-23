@@ -43,6 +43,7 @@ float Ki = ACTUALKI;//3.0/100000; // 7.69/100000
 float Kd = 0;
 float maxSumError = 0.0;
 unsigned long t = 0;
+unsigned long freq = 1;
 
 unsigned long roundNum(float num){
 	if (num > (long)num){

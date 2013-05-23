@@ -22,5 +22,6 @@ extern int CMD_setTrajectory(int argc, char **argv);
 extern int CMD_start(int argc, char **argv);
 extern int CMD_stop(int argc, char **argv);
 extern int CMD_setDuty(int argc, char **argv);
+extern int CMD_setFreq(int argc, char **argv);
 
 #endif /* APP_COMMANDS_H_ */
