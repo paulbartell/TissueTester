@@ -17,17 +17,17 @@
 
 #define BACKSPACE 8
 
-extern unsigned long freq;
 extern PID LVDTController;
+extern unsigned long freq;
 
 tCmdLineEntry g_sCmdTable[] =
 {
 		{"help",	CMD_help,	" : Display list of commands" },
-		{"setTrajectory",	CMD_setTrajectory,	" : Set the trajectory"	},
+		{"sT",	CMD_setTrajectory,	" : Set the trajectory"	},
 		{"start", CMD_start, " : Start the device"},
 		{"stop", CMD_stop, " : Stop the device"},
-		{"setDuty", CMD_setDuty, " : Set the duty cycle of the PWM" },
-		{"setFreq", CMD_setFreq, " : Set the frequency" },
+		{"sD", CMD_setDuty, " : Set the duty cycle of the PWM" },
+		{"sF", CMD_setFreq, " : Set the frequency" },
 		{ 0, 0, 0}
 };
 
@@ -154,7 +154,7 @@ int CMD_setDuty(int argc, char **argv) {
 
 	if(argc == 2) {
 		newDuty = ustrtoul(argv[1],0,10);
-		if(newDuty < 0 || newDuty > 100) {
+		if(newDuty < 0 || newDuty > 1024) {
 			UARTprintf("Invalid duty value!\n");
 			return 0;
 		}
@@ -172,7 +172,9 @@ int CMD_setFreq(int argc, char **argv) {
 			UARTprintf("Invalid frequency!\n");
 			return 0;
 		}
+		CMD_stop(0, 0);
 		freq = newFreq;
+		CMD_start(0, 0);
 	}
 	return 0;
 }
