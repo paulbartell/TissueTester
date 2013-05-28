@@ -35,13 +35,9 @@ extern long ulLVDT[1];				    //Stores data read from ADC1 FIFO
 extern long setPoint;					//Stores the desired set point of the indenter
 extern unsigned long pwmPeriod;
 long LVDTPIDOutput[1] = {0};			//Output from the LVDT controller
-long yLast = 0;
-float sumError = 0.0;
 PID LVDTController;						//PID struct LVDTController
-float Kp = 0.45;
-float Ki = 0.0000000000003;   //ACTUALKI;//3.0/100000; // 7.69/100000
-float Kd = .000000000000001;
-float maxSumError = 0.0;
+PID IController;
+PID *Controller = &LVDTController; 		// Set default controller type
 unsigned long t = 0;
 unsigned long freq = 1;
 
@@ -55,18 +51,34 @@ unsigned long roundNum(float num){
 
 void LVDTPIDInit(void) {
 	//Initialize the controller's gains as well as input and output
-	LVDTController.Kd = &Kd;
-	LVDTController.Ki = &Ki;
-	LVDTController.Kp = &Kp;
+	LVDTController.Kd = .000000000000001;
+	LVDTController.Ki = 0.0000000000003;
+	LVDTController.Kp = 0.2;
 	LVDTController.x = &setPoint;
 	LVDTController.y = ulLVDT;
-	LVDTController.yLast = &yLast;
-	LVDTController.u = LVDTPIDOutput;
-	LVDTController.sumError = &sumError;
-	LVDTController.maxSumError = &maxSumError;
+	LVDTController.yLast = 0;
+	LVDTController.u = 0;
+	LVDTController.sumError = 0.0;
+	LVDTController.maxSumError = MAX_IVALUE / ((ACTUALKI) + 1.0);
+}
 
-	maxSumError = MAX_IVALUE / ((ACTUALKI) + 1.0);
 
+void IPIDInit(void) {
+	//Initialize the controller's gains as well as input and output
+	IController.Kd = 0.0;
+	IController.Ki = 0.0;
+	IController.Kp = 0.0;
+	IController.x = &setPoint;
+	IController.y = ulCurrent;
+	IController.yLast = 0;
+	IController.u = 0;
+	IController.sumError = 0.0;
+	IController.maxSumError = 0.0;
+
+	IController.maxSumError = MAX_IVALUE / ((ACTUALKI) + 1.0);
+}
+
+void PIDInit(void){
 	//Enable the Timer 2 interrupt so that the PID code triggers off
 	//of the PWM timer.
 	TimerLoadSet(TIMER2_BASE, TIMER_A, pwmPeriod*10);
@@ -77,56 +89,53 @@ void LVDTPIDInit(void) {
 	TimerEnable(TIMER2_BASE, TIMER_A);
 }
 
-interrupt void PIDIntHandlerLVDT(void) {
+interrupt void PIDIntHandler(void) {
 	float pValue = 0.0;
 	float dValue = 0.0;
-	float iValue = 560.0;
-	float error = 0.0;
-	float DCoffset = 560.0;
+	float iValue = 0.0;
+	long error = 0.0;
+	float DCoffset = 0.0;
 	float temp = 0.0;
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-	*LVDTController.x = 1096 * (sin((2*PI*t*freq)/PIDFREQ) + 1) + 1096;
+	*(Controller->x) = (long) (1096 * (sinf((2*PI*t*freq)/PIDFREQ) + 1) + 1096); // Calculate our desired setpoint
 	t++;
 	//Compute the error
-	error = *LVDTController.x - *LVDTController.y;
+	error = *(Controller->x) - *(Controller->y);
 
 	//Compute the P portion of the controller
-	pValue = (*LVDTController.Kp)*error;
+	pValue = (Controller->Kp)*error;
 
 	//Compute the D portion of the controller
+	dValue = (Controller->Kd)*(Controller->yLast - *(Controller->y));
 
-	/*
-	 * Non-complicated D term
-	 */
-	dValue = (*LVDTController.Kd)*(*LVDTController.yLast - *LVDTController.y);
-	*LVDTController.yLast = *LVDTController.y;
+	Controller->yLast = *(Controller->y);
 
 	//Compute the I portion of the controller
-	temp = (*LVDTController.sumError + error)*Ki;
+	temp = (Controller->sumError + error)*Controller->Ki;
 
 	if (temp > MAX_IVALUE) {
 		iValue = MAX_IVALUE;
-		*LVDTController.sumError = MAX_IVALUE / Ki;
+		Controller->sumError = MAX_IVALUE / Controller->Ki;
 	}
 	else if (temp < -(MAX_IVALUE)) {
 		iValue = -MAX_IVALUE;
-		*LVDTController.sumError = -(MAX_IVALUE / Ki);
+		Controller->sumError = -(MAX_IVALUE / Controller->Ki);
 	}
 	else {
 
-		*LVDTController.sumError = *LVDTController.sumError + error;
-		iValue = (*LVDTController.Ki)*(*LVDTController.sumError);
+		Controller->sumError = Controller->sumError + error;
+		iValue = (Controller->Ki)*(Controller->sumError);
 	}
 
 	//Calculate controller effort
-	(*LVDTController.u) = pValue + dValue + iValue + DCoffset;
+	(Controller->u) = pValue + dValue + iValue + DCoffset;
 
-	if(*LVDTController.u > (UMAX)){
+	if(Controller->u > (UMAX)){
 		pwmSetDuty((UMAX));
-	} else if (*LVDTController.u < -(UMAX)){
+	} else if (Controller->u < -(UMAX)){
 		pwmSetDuty(-(UMAX));
 	}else{
-		pwmSetDuty(roundNum(*LVDTController.u));
+		pwmSetDuty(roundNum(Controller->u));
 	}
 }

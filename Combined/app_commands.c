@@ -28,7 +28,7 @@ tCmdLineEntry g_sCmdTable[] =
 		{"stop", CMD_stop, " : Stop the device"},
 		{"sD", CMD_setDuty, " : Set the duty cycle of the PWM" },
 		{"sF", CMD_setFreq, " : Set the frequency" },
-		{ 0, 0, 0}
+		//{ 0, 0, 0}
 };
 
 const int NUM_CMD = sizeof(g_sCmdTable)/sizeof(tCmdLineEntry);

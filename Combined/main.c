@@ -22,7 +22,7 @@
 //Global variables
 long ulCurrent[1] = {0};				//Stores data read from ADC0 FIFO
 long ulLVDT[1] = {0};				    //Stores data read from ADC1 FIFO
-long Accel = 0;						//Stores data read from accelerometer
+long accel = 0;						//Stores data read from accelerometer
 unsigned long dutyCycle = 0;					//Duty cycle for the PWM
 unsigned long pwmPeriod = 0;					//Period for the PWM
 long setPoint = 0;
@@ -36,6 +36,8 @@ int main(void) {
 	// signed long dutynumber = 0;
 	long lCommandStatus;
 
+	//FPUStackingEnable();
+
 	//Set system clock to 80 MHz
 	SysCtlClockSet(SYSCTL_SYSDIV_2_5|SYSCTL_USE_PLL|SYSCTL_OSC_MAIN|SYSCTL_XTAL_16MHZ);
 
@@ -45,94 +47,92 @@ int main(void) {
 	//Enable console communication with UART
 	UARTStdioInit(0);
 
-    pwmSetup();
+	pwmSetup();
 
-    //pwmSetDuty(0);
+	//pwmSetDuty(0);
 
 	ADCSetup();
 
 	LVDTPIDInit();
+	PIDInit();
+//	UARTprintf("Welcome to the BRL Tissue Testing interface!\n");
+//	UARTprintf("Type 'help' for a list of commands\n");
+//	UARTprintf("> ");
 
-	UARTprintf("Welcome to the BRL Tissue Testing interface!\n");
-	UARTprintf("Type 'help' for a list of commands\n");
-	UARTprintf("> ");
+	IntMasterEnable();
 
-	SysCtlDelay(SysCtlClockGet() / (1000/3));
-
-    IntMasterEnable();
-//	setPoint = 1000;
 
 	while(1) {
-			UARTprintf("\n>");
 		/*
 		 * Peek to see if a full command is ready for processing
 		 */
-		while(UARTPeek('\r') == -1) {
-			SysCtlDelay(SysCtlClockGet() / (1000/3));
-		}
-
-	/*
-	 * a '/r' was detected so get the line of text from the user.
-	 */
-	UARTgets(g_cInput, sizeof(g_cInput));
-
-	/*
-	 * Pass the line from the user to the command processor.
-	 * It will be parsed and valid commands executed.
-	 */
-	lCommandStatus = CmdLineProcess(g_cInput);
-
-	/*
-	 * Handle the case of bad command.
-	 */
-	if(lCommandStatus == CMDLINE_BAD_CMD) {
-		UARTprintf("Bad command!\n");
-	}
-
-	/*
-	 * Handle the case of too many arguments
-	 */
-	else if(lCommandStatus == CMDLINE_TOO_MANY_ARGS) {
-		UARTprintf("Too many arguments for command processor!\n");
-	}
+		UARTprintf("%u %u %d\n",ulLVDT[0],ulCurrent[0],accel);
+		SysCtlDelay(SysCtlClockGet() / (100*3));
+//		if(UARTPeek('\r') != -1) {
+//
+//			/*
+//			 * a '/r' was detected so get the line of text from the user.
+//			 */
+//			UARTgets(g_cInput, sizeof(g_cInput));
+//
+//			/*
+//			 * Pass the line from the user to the command processor.
+//			 * It will be parsed and valid commands executed.
+//			 */
+//			lCommandStatus = CmdLineProcess(g_cInput);
+//
+//			/*
+//			 * Handle the case of bad command.
+//			 */
+//			if(lCommandStatus == CMDLINE_BAD_CMD) {
+//				UARTprintf("Bad command!\n");
+//			}
+//
+//			/*
+//			 * Handle the case of too many arguments
+//			 */
+//			else if(lCommandStatus == CMDLINE_TOO_MANY_ARGS) {
+//				UARTprintf("Too many arguments for command processor!\n");
+//			}
+//		}
 		// SysCtlDelay(SysCtlClockGet() / (100*3));
 
 		// if (UARTPeek('\r') != -1) {
-			// UARTgets(str,6);
-			// dutynumber = 0;
-			// while (count < 5) {
-				// if (str[count] >= '0' && str[count] <= '9'){
-					// dutynumber = dutynumber*10 + (str[count] - '0');
-					// count++;
-				// }else if(str[count] == '-'){
-					// count++;
-				// }else{
-					// break;
-				// }
-			// }
-			// if(str[0] == '-'){
-				// dutynumber = -dutynumber;
-				// count = 0;
-				// //pwmSetDuty(dutynumber);
-				// setPoint = dutynumber;
-				// //setPoint = 3000;
-				// UARTprintf("duty set to %d\n", dutynumber);
-			// }else if(str[0] == 0){
-				// UARTprintf("C: %u ", ulCurrent[0]);
-				// UARTFlushTx(0);
-				// UARTprintf("L: %u ", ulLVDT[0]);
-				// UARTFlushTx(0);
-				// UARTprintf("S: %d", setPoint);
-				// UARTFlushTx(0);
-				// UARTprintf("u: %d", *LVDTController.u);
-				// UARTFlushTx(0);
-			// }else{
-				// count = 0;
-				// //pwmSetDuty(dutynumber);
-				// setPoint = dutynumber;
-				// //setPoint = 3000;
-				// UARTprintf("duty set to %d\n", dutynumber);
-			// }
+		// UARTgets(str,6);
+		// dutynumber = 0;
+		// while (count < 5) {
+		// if (str[count] >= '0' && str[count] <= '9'){
+		// dutynumber = dutynumber*10 + (str[count] - '0');
+		// count++;
+		// }else if(str[count] == '-'){
+		// count++;
+		// }else{
+		// break;
+		// }
+		// }
+		// if(str[0] == '-'){
+		// dutynumber = -dutynumber;
+		// count = 0;
+		// //pwmSetDuty(dutynumber);
+		// setPoint = dutynumber;
+		// //setPoint = 3000;
+		// UARTprintf("duty set to %d\n", dutynumber);
+		// }else if(str[0] == 0){
+		// UARTprintf("C: %u ", ulCurrent[0]);
+		// UARTFlushTx(0);
+		// UARTprintf("L: %u ", ulLVDT[0]);
+		// UARTFlushTx(0);
+		// UARTprintf("S: %d", setPoint);
+		// UARTFlushTx(0);
+		// UARTprintf("u: %d", *LVDTController.u);
+		// UARTFlushTx(0);
+		// }else{
+		// count = 0;
+		// //pwmSetDuty(dutynumber);
+		// setPoint = dutynumber;
+		// //setPoint = 3000;
+		// UARTprintf("duty set to %d\n", dutynumber);
+		// }
 		// }
 
 	}
