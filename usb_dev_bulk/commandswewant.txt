@@ -1,0 +1,13 @@
+Commands Available
+
+-- Connected State --
+Load Trajectory
+Set Position Zero
+Set Controller (Position,Icurrent,Open loop)
+Set Trajectory source (table, streaming, function)
+Start Testing
+
+---Testing State---
+Stop Testing
+Set setpoint (if in streaming trajectory mode)
+
