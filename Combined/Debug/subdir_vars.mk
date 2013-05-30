@@ -17,7 +17,6 @@ C_SRCS += \
 ../newpins.c \
 ../sine.c \
 ../startup_ccs.c \
-../trajectory.c \
 C:/StellarisWare/utils/uartstdio.c \
 ../ustdlib.c 
 
@@ -32,7 +31,6 @@ OBJS += \
 ./newpins.obj \
 ./sine.obj \
 ./startup_ccs.obj \
-./trajectory.obj \
 ./uartstdio.obj \
 ./ustdlib.obj 
 
@@ -47,7 +45,6 @@ C_DEPS += \
 ./newpins.pp \
 ./sine.pp \
 ./startup_ccs.pp \
-./trajectory.pp \
 ./uartstdio.pp \
 ./ustdlib.pp 
 
@@ -62,7 +59,6 @@ C_DEPS__QUOTED += \
 "newpins.pp" \
 "sine.pp" \
 "startup_ccs.pp" \
-"trajectory.pp" \
 "uartstdio.pp" \
 "ustdlib.pp" 
 
@@ -77,7 +73,6 @@ OBJS__QUOTED += \
 "newpins.obj" \
 "sine.obj" \
 "startup_ccs.obj" \
-"trajectory.obj" \
 "uartstdio.obj" \
 "ustdlib.obj" 
 
@@ -92,7 +87,6 @@ C_SRCS__QUOTED += \
 "../newpins.c" \
 "../sine.c" \
 "../startup_ccs.c" \
-"../trajectory.c" \
 "C:/StellarisWare/utils/uartstdio.c" \
 "../ustdlib.c" 
 
