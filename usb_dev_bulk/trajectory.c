@@ -8,7 +8,10 @@
 #include "trajectory.h"
 #include "PID.h"
 
+#define NUM_POINTS 100
+
 extern PID* Controller;
+unsigned long count = 0;
 
 static const unsigned float trajectory[] = 
 {
@@ -24,17 +27,29 @@ static const unsigned float trajectory[] =
 	2192
 };
 
-void initTrajectoryTimer(void) {
-	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER3);
+/*void initTrajectoryTimerInt(void) {
+//	unsigned long ulPeriod = 0;
+//	//Enable Timer 3
+//	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER3);
+//	//Initialize timer period to default setting
+//	ulPeriod = SysCtlClockGet()/DEFUALT_FREQ;
+//	TimerConfigure(TIMER3_BASE, TIMER_CFG_PERIODIC);
+//	TimerLoadSet(TIMER3_BASE, TIMER_A, ulPeriod);
+//	//Enable interrupt for timer 3
 
 
+}*/
+
+void setTrajectory(void) {
+	Controller->x = *(trajectory + count);
+	count = (count + 1) % NUM_POINTS;
 }
 
-void setTrajectory(unsigned long newFreq) {
-	
-}
-
-void setTimer(unsigned long newFreq) {
-
-}
+//void setTimer(unsigned long newFreq) {
+//	unsigned long ulPeriod = 0;
+//	//Calculate desired period of the timer
+//	ulPeriod = SysCtlClockGet()/newFreq;
+//	//Set timer to the desired period
+//	TimerLoadSet(TIMER3-BASE, TIMER_A, ulPeriod);
+//}
 
