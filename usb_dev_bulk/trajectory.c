@@ -1,3 +1,10 @@
+#include "inc/hw_memmap.h"
+#include "inc/hw_types.h"
+#include "inc/hw_memmap.h"
+#include "driverlib/timer.h"
+#include "driverlib/sysctl.h"
+#include "driverlib/gpio.h"
+#include "driverlib/pin_map.h"
 #include "trajectory.h"
 #include "PID.h"
 
@@ -18,6 +25,8 @@ static const unsigned float trajectory[] =
 };
 
 void initTrajectoryTimer(void) {
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER3);
+
 
 }
 
