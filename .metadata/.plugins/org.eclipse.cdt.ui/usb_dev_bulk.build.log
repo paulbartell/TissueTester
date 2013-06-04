@@ -1,0 +1,23 @@
+
+**** Build of configuration Debug for project usb_dev_bulk ****
+
+"C:\\ti\\ccsv5\\utils\\bin\\gmake" -k all 
+'Building file: ../trajectory.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv5/tools/compiler/tms470_4.9.5/bin/cl470" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --include_path="C:/StellarisWare/utils" --include_path="C:/StellarisWare" --include_path="C:/ti/ccsv5/tools/compiler/tms470_4.9.5/include" --include_path="C:/Users/BRL/Documents" --gcc --define=ccs="ccs" --define=PART_LM4F120H5QR --define=TARGET_IS_BLIZZARD_RA1 --define=UART_BUFFERED --diag_warning=225 --display_error_number --gen_func_subsections=on --ual --preproc_with_compile --preproc_dependency="trajectory.pp"  "../trajectory.c"
+'Finished building: ../trajectory.c'
+' '
+gmake: ../usb_bulk_structs.c: Timestamp out of range; substituting 1969-12-31 16:00:00
+gmake: ../usb_bulk_structs.h: Timestamp out of range; substituting 1969-12-31 16:00:00
+gmake: ../usb_dev_bulk_ccs.cmd: Timestamp out of range; substituting 1969-12-31 16:00:00
+'Building target: usb_dev_bulk.out'
+'Invoking: ARM Linker'
+"C:/ti/ccsv5/tools/compiler/tms470_4.9.5/bin/cl470" -mv7M4 --code_state=16 --float_support=FPv4SPD16 --abi=eabi -me -O2 -g --gcc --define=ccs="ccs" --define=PART_LM4F120H5QR --define=TARGET_IS_BLIZZARD_RA1 --define=UART_BUFFERED --diag_warning=225 --display_error_number --gen_func_subsections=on --ual -z --stack_size=1024 -m"usb_dev_bulk_ccs.map" --heap_size=0 -i"C:/ti/ccsv5/tools/compiler/tms470_4.9.5/lib" -i"C:/ti/ccsv5/tools/compiler/tms470_4.9.5/include" --reread_libs --warn_sections --display_error_number --rom_model -o "usb_dev_bulk.out"  "./ustdlib.obj" "./usb_dev_bulk.obj" "./usb_bulk_structs.obj" "./uartstdio.obj" "./trajectory.obj" "./structs.obj" "./states.obj" "./startup_ccs.obj" "./buttons.obj" "./accel.obj" "./PWM.obj" "./PID.obj" "./ADCSetup.obj" -l"C:\StellarisWare\usblib\ccs-cm4f\Debug\usblib-cm4f.lib" -l"C:\ti\ccsv5\tools\compiler\tms470_4.9.5\lib\libc.a" -l"C:\StellarisWare\driverlib\ccs-cm4f\Debug\driverlib-cm4f.lib" "../usb_dev_bulk_ccs.cmd" 
+<Linking>
+'Finished building target: usb_dev_bulk.out'
+' '
+C:/ti/ccsv5/utils/bin/gmake --no-print-directory post-build
+"C:/ti/ccsv5/utils/tiobj2bin/tiobj2bin" "usb_dev_bulk.out" "usb_dev_bulk.bin" "C:/ti/ccsv5/tools/compiler/tms470_4.9.5/bin/ofd470" "C:/ti/ccsv5/tools/compiler/tms470_4.9.5/bin/hex470" "C:/ti/ccsv5/utils/tiobj2bin/mkhex4bin"
+' '
+
+**** Build Finished ****

@@ -1,0 +1,28 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+O_SRCS += \
+../gcc/ADCSetup.o \
+../gcc/PID.o \
+../gcc/PWM.o \
+../gcc/startup_gcc.o \
+../gcc/structs.o \
+../gcc/uartstdio.o \
+../gcc/usb_bulk_structs.o \
+../gcc/usb_dev_bulk.o \
+../gcc/ustdlib.o 
+
+O_SRCS__QUOTED += \
+"../gcc/ADCSetup.o" \
+"../gcc/PID.o" \
+"../gcc/PWM.o" \
+"../gcc/startup_gcc.o" \
+"../gcc/structs.o" \
+"../gcc/uartstdio.o" \
+"../gcc/usb_bulk_structs.o" \
+"../gcc/usb_dev_bulk.o" \
+"../gcc/ustdlib.o" 
+
+

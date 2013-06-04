@@ -61,7 +61,7 @@ void LVDTPIDInit(void) {
 	//Initialize the controller's gains as well as input and output
 	LVDTController.Kd = .000000000000001;
 	LVDTController.Ki = 0.0000000000003;
-	LVDTController.Kp = 0.2;
+	LVDTController.Kp = 0.3;
 	LVDTController.x = &setPoint;
 	LVDTController.y = &ulLVDT;
 	LVDTController.yLast = 0;
@@ -138,7 +138,7 @@ void PIDIntHandler(void) {
 
 	TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
 	//*(Controller->x) = (long) (1096 * (sinf((2*PI*t*freq)/PIDFREQ) + 1) + 1096); // Calculate our desired setpoint
-	t++;
+	//t++;
 	//Compute the error
 	error = *(Controller->x) - *(Controller->y);
 
@@ -151,19 +151,18 @@ void PIDIntHandler(void) {
 	Controller->yLast = *(Controller->y);
 
 	//Compute the I portion of the controller
-	temp = (Controller->sumError + error)*Controller->Ki;
+	temp = (Controller->sumError + error);//*Controller->Ki;
 
-	if (temp > MAX_IVALUE) {
-		iValue = MAX_IVALUE;
-		Controller->sumError = MAX_IVALUE / Controller->Ki;
+	if (temp > Controller->maxSumError) {
+		iValue = Controller->maxSumError*Controller->Ki;
+		Controller->sumError = Controller->maxSumError;
 	}
 	else if (temp < -(MAX_IVALUE)) {
-		iValue = -MAX_IVALUE;
-		Controller->sumError = -(MAX_IVALUE / Controller->Ki);
+		iValue = -Controller->maxSumError*Controller->Ki;
+		Controller->sumError = -(Controller->maxSumError);
 	}
 	else {
-
-		Controller->sumError = Controller->sumError + error;
+		Controller->sumError = temp;
 		iValue = (Controller->Ki)*(Controller->sumError);
 	}
 
