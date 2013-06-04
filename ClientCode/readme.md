@@ -15,20 +15,16 @@ An first-run simpler interface is in TissueTesterClient.py . It just allows you 
 MainWindow.ui is the QT designer gui file for use with QT Designer
 MainWindow.py is the python version of the gui file. This is a helper file for TissueTesterExtendedUi.py You can generate it from the ui file using the following command: 
 
-'''bash
 pyside-uic -x -o MainWindow.py MainWindow.ui
-'''
+
 ## Tissue Tester python Interface
 The python interface (in TissueTesterInterface.py) provides an easy to use python interface with the Tissue Tester for starting and stopping data capture.
 This is mainly for if you are writing your own code for interacting with the device. If you are using the TissueTesterInterface, look in the code for documentation of each of the functions. Some knowledge of the code/state structure of the embedded controller code would probably be helpful.
 
 Below is an example of initializing the TissueTesterInterface:
 
-'''python
 from TissueTesterInterface import *
 tt = TissueTesterInterface()
 tt.start()
-# wait a bit here
 tt.stop()
-'''
 
