@@ -24,6 +24,7 @@
 #include "PWM.h"
 #include "driverlib/pin_map.h"
 #include "driverlib/rom_map.h"
+#include "buttons.h"
 
 #define MAX_IVALUE 1024				//Arbitrarily set, needs testing.
 #define ACTUALKI 3.0/100000
@@ -38,9 +39,12 @@ extern unsigned long pwmPeriod;
 signed long LVDTPIDOutput[1] = {0};			//Output from the LVDT controller
 PID LVDTController;						//PID struct LVDTController
 PID IController;
-PID *Controller = &LVDTController; 		// Set default controller type
+PID OLController;
+PID *Controller = &IController; 		// Set default controller type
 unsigned long t = 0;
 unsigned long freq = 1;
+extern long ButtonStatus;
+
 
 unsigned long roundNum(float num){
 	if (num > (long)num){
@@ -64,24 +68,45 @@ void LVDTPIDInit(void) {
 	LVDTController.u = 0;
 	LVDTController.sumError = 0.0;
 	LVDTController.maxSumError = MAX_IVALUE / ((ACTUALKI) + 1.0);
-	LVDTController.type = LVDTTYPE;
 }
 
 
 void IPIDInit(void) {
 	//Initialize the controller's gains as well as input and output
-	IController.Kd = 0.0;
-	IController.Ki = 0.0;
-	IController.Kp = 0.0;
+	IController.Kd = 1.0/100000000;
+	IController.Ki = 1.0/1000000;
+	IController.Kp = 0.45;
 	IController.x = &setPoint;
 	IController.y = &ulCurrent;
 	IController.yLast = 0;
 	IController.u = 0;
 	IController.sumError = 0.0;
 	IController.maxSumError = MAX_IVALUE / ((ACTUALKI) + 1.0);
-	IController.type = ITYPE;
 }
 
+void OLInit(void) {
+	//Initialize the controller's gains as well as input and output
+	OLController.Kd = 0.0;
+	OLController.Ki = 0.0;
+	OLController.Kp = 0.0;
+	OLController.x = &setPoint;
+	OLController.y = ulCurrent;
+	OLController.yLast = 0;
+	OLController.u = 0;
+	OLController.sumError = 0.0;
+	OLController.maxSumError = MAX_IVALUE / ((ACTUALKI) + 1.0);
+	OLController.offset = 0.0;
+}
+
+void setController(unsigned long cont){
+	if(cont == 0x00){
+		Controller = &LVDTController;
+	} else if(cont == 0x01){
+		Controller = &IController;
+	} else if(cont == 0x00){
+		Controller = &OLController;
+	}
+}
 void PIDInit(void){
 	//Enable the Timer 2 interrupt so that the PID code triggers off
 	//of the PWM timer.
@@ -92,6 +117,8 @@ void PIDInit(void){
 	TimerEnable(TIMER2_BASE, TIMER_A);
 	IntMasterEnable();
 }
+
+
 
 void PIDEnable(void){
 	TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
@@ -150,4 +177,9 @@ void PIDIntHandler(void) {
 	}else{
 		pwmSetDuty(roundNum(Controller->u));
 	}
+
+}
+void eStopHandler(void) {
+	GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_0|GPIO_PIN_4);
+	ButtonStatus = GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0|GPIO_PIN_4);
 }

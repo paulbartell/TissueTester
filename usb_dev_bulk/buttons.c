@@ -29,7 +29,7 @@
 #include "driverlib/rom.h"
 #include "driverlib/pin_map.h"
 #include "driverlib/gpio.h"
-#include "drivers/buttons.h"
+#include "buttons.h"
 
 //*****************************************************************************
 //
@@ -182,7 +182,7 @@ ButtonsInit(void)
     // Initialize the debounced button state with the current state read from
     // the GPIO bank.
     //
-    g_ucButtonStates = ROM_GPIOPinRead(BUTTONS_GPIO_BASE, ALL_BUTTONS);
+    //g_ucButtonStates = ROM_GPIOPinRead(BUTTONS_GPIO_BASE, ALL_BUTTONS);
 }
 
 //*****************************************************************************

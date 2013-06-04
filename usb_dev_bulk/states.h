@@ -14,4 +14,4 @@
  #define STATE_ESTOP 0x04
  
  void StateTransition(unsigned long toState);
- unsigned long state;
+

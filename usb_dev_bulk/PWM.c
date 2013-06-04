@@ -25,6 +25,7 @@
 #define PWMPERIOD 1024
 
 unsigned long pwmPeriod;
+long gDuty = 0;
 
 // Sets up our timer for PWM output
 void pwmSetup() {
@@ -69,15 +70,16 @@ void pwmDisable(void){
 
 // Sets our duty cycle
 void pwmSetDuty(long duty) {
+	gDuty = duty;
 
-	if (duty > 0){ // positive
+	if (gDuty > 0){ // positive
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 255);
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 0);
-		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod - duty - 1);
-	} else if(duty < 0){ // negative
+		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod - gDuty - 1);
+	} else if(gDuty < 0){ // negative
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 0);
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 255);
-		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod + duty -2);
+		TimerMatchSet(TIMER1_BASE, TIMER_A, pwmPeriod + gDuty -2);
 	}else{ // Motor Stop
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_6, 255);
 		GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_7, 255);

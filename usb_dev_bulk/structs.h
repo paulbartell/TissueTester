@@ -28,11 +28,13 @@ typedef struct {
 typedef struct { 				// All units are in ADC counts unless otherwise specified.
 	unsigned char startbyte; 	// Packet version.. this is version 1.
 	unsigned long time; 		// current time of packet... from RTC module on steallris
-	unsigned long lvdt; 	// True position from LVDT sensor
+	unsigned long lvdt; 		// True position from LVDT sensor
 	unsigned long current; 		// measured motor current
 	unsigned long accelx;		// X-acceleration (from accelerometer)
 	unsigned long cmdval; 		// commanded value (with offset if applicable)
 	unsigned long dutycycle;	// last pwm duty cycle value.. if using pwm control.
+	unsigned long padding; 		// Easier if we are the right size (32 bytes)
 } datapacket;
 
 #endif /* STRUCTS_H_ */
+

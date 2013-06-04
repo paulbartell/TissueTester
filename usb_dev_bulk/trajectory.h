@@ -3,8 +3,16 @@
 
 void initTrajectoryTimerInt(void);
 
-void setTrajectory(unsigned long newFreq);
+void setTrajectoryHandler(void);
 
-void setTimer(unsigned long newFreq);
+void setTrajectoryTimer(unsigned long newFreq);
+
+void setTrajectorySource(unsigned long src);
+
+void setTrajectoryElement(signed long pt);
+
+void trajectoryEnable(void);
+
+void trajectoryDisable(void);
 
 #endif

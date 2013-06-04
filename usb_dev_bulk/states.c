@@ -7,6 +7,11 @@
  * as well as state transition functions.
  *
  */
+#include "states.h"
+#include "PWM.h"
+#include "ADCSetup.h"
+#include "PID.h"
+#include "trajectory.h"
  
  unsigned long state = STATE_IDLE;
  
@@ -14,12 +19,13 @@
  	
  	switch(state) {
  	
- 		case STATE_IDLE :
+ 		case STATE_IDLE :{
  			// only possible NS is Connected// We should check ESTOP before switching states.
  			pwmEnable();
  			ADCEnable();
  			state = STATE_CONNECTED;
  			break;
+ 		}
  			
  		case STATE_CONNECTED :
  			switch(toState) {
@@ -34,13 +40,13 @@
  					break;
  				case STATE_TESTING :
  					PIDEnable();
- 					//TrajectoryEnable();
+ 					trajectoryEnable();
  					state = STATE_TESTING;
  					break;
- 				case ESTOP :
+ 				case STATE_ESTOP :
  					PIDDisable();
  					pwmDisable();
- 					//TracjectoryDisable();
+ 					trajectoryDisable();
  					state = STATE_ESTOP;
  					break;
  				default :
@@ -51,17 +57,19 @@
  			
  		case STATE_LOAD :
  			// we need to switch back to connected state if not estop
+ 			state = STATE_CONNECTED;
  			break;
  			
  		case STATE_TESTING :
  			switch(toState) {
  				case STATE_CONNECTED :
  					PIDDisable();
- 					//TrajectoryDisable();
+ 					trajectoryDisable();
+ 					pwmSetDuty(0);
  					state = STATE_CONNECTED;
  					break;
- 				case ESTOP :
- 					doSomethingElse();
+ 				case STATE_ESTOP :
+ 					//doSomethingElse();
  					break;
  				default :
  					break;

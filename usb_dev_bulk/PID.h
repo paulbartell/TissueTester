@@ -24,8 +24,10 @@ typedef struct PID {
 	float Kp;			// Proportional gain
 	float Ki;			// Integral gain
 	float Kd;			// Derivative gain
-	long type;			// controller type
+	float offset;
  } PID;
+
+void setController(unsigned long cont);
 
 void PIDInit(void);
 
@@ -38,6 +40,8 @@ void LVDTPIDInit(void);
 void IPIDInit(void);
 
 void PIDIntHandler(void);
+
+void eStopHandler(void);
 
 unsigned long roundNum(float num);
 

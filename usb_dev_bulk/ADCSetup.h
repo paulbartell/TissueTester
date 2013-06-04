@@ -25,4 +25,6 @@ void ADC1IntHandler(void);
 void ADCEnable();
 void ADCDisable();
 
+void zeroLVDT(unsigned long);
+
 #endif // __ADCSETUP_H__

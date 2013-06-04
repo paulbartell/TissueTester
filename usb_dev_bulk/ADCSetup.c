@@ -27,8 +27,11 @@
 #define PRIORITY 0
 #define AVGSAMPLES 64
 
-extern unsigned long ulCurrent[];
-extern unsigned long ulLVDT[];
+extern long ulCurrent[];
+extern long ulLVDT[];
+extern long gDuty;
+long ADCtemp[2];
+long ulLVDTZero;
 
 //Sets up ADC0, ADC1 and TIMER0A to trigger the sampling
 void ADCSetup(void) {
@@ -77,7 +80,7 @@ void ADCSetup(void) {
 		TimerConfigure(TIMER0_BASE, TIMER_CFG_PERIODIC);
 
 		//Calculate period for a pin toggle freq of 1kHz with 50% duty cycle
-		ulPeriod = (SysCtlClockGet() / 1000) / 2;
+		ulPeriod = (SysCtlClockGet() / 64000) / 2;
 		TimerLoadSet(TIMER0_BASE, TIMER_A, ulPeriod - 1);
 
 	/*
@@ -161,7 +164,14 @@ void ADC0IntHandler(void) {
 	ADCIntClear(ADC0_BASE, SEQUENCER);
 
 	//Get data from ADC0 sequence 3
-	ADCSequenceDataGet(ADC0_BASE, SEQUENCER, ulCurrent);
+	ADCSequenceDataGet(ADC0_BASE, SEQUENCER, &ADCtemp[0]);
+
+	if(gDuty < 0) {
+		ulCurrent[0] = -1*ADCtemp[0];
+	}
+	else {
+		ulCurrent[0] = ADCtemp[0];
+	}
 }
 
 /*
@@ -172,6 +182,11 @@ void ADC1IntHandler(void) {
 	ADCIntClear(ADC1_BASE, SEQUENCER);
 
 	//Get data from ADC0 sequence 3
-	ADCSequenceDataGet(ADC1_BASE, SEQUENCER, ulLVDT);
+	ADCSequenceDataGet(ADC1_BASE, SEQUENCER, &ADCtemp[1]);
+	ulLVDT[0] = ADCtemp[1] - ulLVDTZero;
+}
+
+void zeroLVDT(unsigned long zero){
+	ulLVDTZero = zero;
 }
 
